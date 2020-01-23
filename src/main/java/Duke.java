@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Duke {
 
@@ -11,7 +12,7 @@ public class Duke {
         System.out.println("Hi! I'm " + name);
         System.out.println("How may I help you?");
 
-        Task[] tasks = new Task[100];
+        ArrayList<Task> tasks = new ArrayList<>();
         int taskCount = 0;
         for (; ; ) {
             String input = sc.nextLine();
@@ -35,20 +36,23 @@ public class Duke {
             } else if (input.startsWith("event")) {
                 addEvent(input, tasks, taskCount);
                 taskCount++;
+            } else if (input.startsWith("delete")) {
+                taskCount--;
+                delete(Integer.parseInt(input.substring("delete".length() + 1)) - 1, tasks, taskCount);
             } else {
                 System.out.println("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
             }
         }
     }
 
-    private static void printList(Task[] tasks, int taskCount) {
+    private static void printList(ArrayList<Task> tasks, int taskCount) {
         printIndented(name + ": Here you go");
         printIndented(line);
         for (int i = 0; i < taskCount; i++) {
-            printIndented((i + 1) + ". [" + tasks[i].getTaskIcon() + "]["
-                    + tasks[i].getStatusIcon() + "] " + tasks[i].getDescription()
-                    + (tasks[i].hasTime() ? ((tasks[i] instanceof Deadline ? " (by: " : " (at: ")
-                    + tasks[i].getTime() + ")") : ""));
+            printIndented((i + 1) + ". [" + tasks.get(i).getTaskIcon() + "]["
+                    + tasks.get(i).getStatusIcon() + "] " + tasks.get(i).getDescription()
+                    + (tasks.get(i).hasTime() ? ((tasks.get(i) instanceof Deadline ? " (by: " : " (at: ")
+                    + tasks.get(i).getTime() + ")") : ""));
         }
         printIndented(line);
     }
@@ -69,37 +73,45 @@ public class Duke {
         printIndented(name + ": Now you have " + (taskCount + 1) + " tasks in the list");
     }
 
-    private static void addToDo(String input, Task[] tasks, int taskCount) throws DukeException {
+    private static void addToDo(String input, ArrayList<Task> tasks, int taskCount) throws DukeException {
         if (input.length() <= ("todo".length() + 1)) {
             throw new DukeException();
         }
-        tasks[taskCount] = new ToDo(input.substring("todo".length() + 1));
-        printTaskAddedMessage(indent + "[" + tasks[taskCount].getTaskIcon() + "]["
-                + tasks[taskCount].getStatusIcon() + "] " + tasks[taskCount].getDescription(), taskCount);
+        tasks.add(new ToDo(input.substring("todo".length() + 1)));
+        printTaskAddedMessage(indent + "[" + tasks.get(taskCount).getTaskIcon() + "]["
+                + tasks.get(taskCount).getStatusIcon() + "] " + tasks.get(taskCount).getDescription(), taskCount);
     }
 
-    private static void addDeadline(String input, Task[] tasks, int taskCount) {
+    private static void addDeadline(String input, ArrayList<Task> tasks, int taskCount) {
         int trigger = input.indexOf('/');
-        tasks[taskCount] = new Deadline(input.substring("deadline".length() + 1, trigger - 1),
-                input.substring(trigger + "/by ".length()));
+        tasks.add(new Deadline(input.substring("deadline".length() + 1, trigger - 1),
+                input.substring(trigger + "/by ".length())));
 
-        printTaskAddedMessage(indent + "[" + tasks[taskCount].getTaskIcon() + "]["
-                + tasks[taskCount].getStatusIcon() + "] " + tasks[taskCount].getDescription(), taskCount);
+        printTaskAddedMessage(indent + "[" + tasks.get(taskCount).getTaskIcon() + "]["
+                + tasks.get(taskCount).getStatusIcon() + "] " + tasks.get(taskCount).getDescription(), taskCount);
     }
 
-    private static void addEvent(String input, Task[] tasks, int taskCount) {
+    private static void addEvent(String input, ArrayList<Task> tasks, int taskCount) {
         int trigger = input.indexOf('/');
-        tasks[taskCount] = new Event(input.substring("event".length() + 1, trigger - 1),
-                input.substring(trigger + "/at ".length()));
+        tasks.add(new Event(input.substring("event".length() + 1, trigger - 1),
+                input.substring(trigger + "/at ".length())));
 
-        printTaskAddedMessage(indent + "[" + tasks[taskCount].getTaskIcon() + "]["
-                + tasks[taskCount].getStatusIcon() + "] " + tasks[taskCount].getDescription(), taskCount);
+        printTaskAddedMessage(indent + "[" + tasks.get(taskCount).getTaskIcon() + "]["
+                + tasks.get(taskCount).getStatusIcon() + "] " + tasks.get(taskCount).getDescription(), taskCount);
     }
 
-    private static void addDone(int taskNumber, Task[] tasks) {
-        tasks[taskNumber].markAsDone();
+    private static void addDone(int taskNumber, ArrayList<Task> tasks) {
+        tasks.get(taskNumber).markAsDone();
         printIndented(name + ": All right, consider it done");
-        printBetweenBars("[" + tasks[taskNumber].getStatusIcon() + "] " + tasks[taskNumber].getDescription());
+        printBetweenBars("[" + tasks.get(taskNumber).getStatusIcon() + "] " + tasks.get(taskNumber).getDescription());
+    }
+
+    private static void delete(int taskNumber, ArrayList<Task> tasks, int taskCount) {
+        printIndented(name + ": Noted. I've removed this task");
+        printBetweenBars(indent + "[" + tasks.get(taskNumber).getTaskIcon() + "]["
+                + tasks.get(taskNumber).getStatusIcon() + "] " + tasks.get(taskNumber).getDescription());
+        printIndented(name + ": Now you have " + taskCount + " tasks in the list");
+        tasks.remove(taskNumber);
     }
 
 }
