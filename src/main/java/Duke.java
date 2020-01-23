@@ -63,7 +63,7 @@ public class Duke {
 
     private static void printBetweenBars(String message) {
         printIndented(line);
-        System.out.println(message);
+        printIndented(message);
         printIndented(line);
     }
 
@@ -78,7 +78,7 @@ public class Duke {
             throw new DukeException();
         }
         tasks.add(new ToDo(input.substring("todo".length() + 1)));
-        printTaskAddedMessage(indent + "[" + tasks.get(taskCount).getTaskIcon() + "]["
+        printTaskAddedMessage("[" + tasks.get(taskCount).getTaskIcon() + "]["
                 + tasks.get(taskCount).getStatusIcon() + "] " + tasks.get(taskCount).getDescription(), taskCount);
     }
 
@@ -87,7 +87,7 @@ public class Duke {
         tasks.add(new Deadline(input.substring("deadline".length() + 1, trigger - 1),
                 input.substring(trigger + "/by ".length())));
 
-        printTaskAddedMessage(indent + "[" + tasks.get(taskCount).getTaskIcon() + "]["
+        printTaskAddedMessage("[" + tasks.get(taskCount).getTaskIcon() + "]["
                 + tasks.get(taskCount).getStatusIcon() + "] " + tasks.get(taskCount).getDescription(), taskCount);
     }
 
@@ -96,7 +96,7 @@ public class Duke {
         tasks.add(new Event(input.substring("event".length() + 1, trigger - 1),
                 input.substring(trigger + "/at ".length())));
 
-        printTaskAddedMessage(indent + "[" + tasks.get(taskCount).getTaskIcon() + "]["
+        printTaskAddedMessage("[" + tasks.get(taskCount).getTaskIcon() + "]["
                 + tasks.get(taskCount).getStatusIcon() + "] " + tasks.get(taskCount).getDescription(), taskCount);
     }
 
@@ -108,7 +108,7 @@ public class Duke {
 
     private static void delete(int taskNumber, ArrayList<Task> tasks, int taskCount) {
         printIndented(name + ": Noted. I've removed this task");
-        printBetweenBars(indent + "[" + tasks.get(taskNumber).getTaskIcon() + "]["
+        printBetweenBars("[" + tasks.get(taskNumber).getTaskIcon() + "]["
                 + tasks.get(taskNumber).getStatusIcon() + "] " + tasks.get(taskNumber).getDescription());
         printIndented(name + ": Now you have " + taskCount + " tasks in the list");
         tasks.remove(taskNumber);
