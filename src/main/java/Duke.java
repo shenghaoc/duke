@@ -16,63 +16,83 @@ public class Duke {
         for (; ; ) {
             String input = sc.nextLine();
             if (input.equals("bye")) {
-                System.out.println(indent + name + ": See you later!");
+                printIndented(name + ": See you later!");
                 break;
             } else if (input.equals("list")) {
-                System.out.println(indent + name + ": Here you go");
-                System.out.println(indent + line);
-                for (int i = 0; i < taskCount; i++) {
-                    System.out.println(indent + (i + 1) + ". [" + tasks[i].getTaskIcon() + "]["
-                            + tasks[i].getStatusIcon() + "] " + tasks[i].getDescription()
-                            + (tasks[i].hasTime() ? ((tasks[i] instanceof Deadline ? " (by: " : " (at: ")
-                            + tasks[i].getTime() + ")") : ""));
-                }
-                System.out.println(indent + line);
+                printList(tasks, taskCount);
             } else if (input.startsWith("done")) {
-                int taskNumber = Integer.parseInt(input.substring("done".length() + 1)) - 1;
-                tasks[taskNumber].markAsDone();
-                System.out.println(indent + name + ": All right, consider it done: ");
-                System.out.println(indent + line);
-                System.out.println(indent + "[" + tasks[taskNumber].getStatusIcon() + "] " + tasks[taskNumber].getDescription());
-                System.out.println(indent + line);
+                addDone(Integer.parseInt(input.substring("done".length() + 1)) - 1, tasks);
             } else if (input.startsWith("todo")) {
-                tasks[taskCount] = new Todo(input.substring("todo".length() + 1));
-                System.out.println(indent + name + ": Got it. I've added this task");
-                System.out.println(indent + line);
-                System.out.println(indent + "[" + tasks[taskCount].getTaskIcon() + "]["
-                        + tasks[taskCount].getStatusIcon() + "] " + tasks[taskCount].getDescription());
-                System.out.println(indent + line);
+                addTodo(input, tasks, taskCount);
                 taskCount++;
-                System.out.println(indent + name + ": Now you have " + taskCount + " tasks in the list");
             } else if (input.startsWith("deadline")) {
-                int trigger = input.indexOf('/');
-                tasks[taskCount] = new Deadline(input.substring("deadline".length() + 1, trigger - 1),
-                        input.substring(trigger + "/by ".length()));
-                System.out.println(indent + name + ": Got it. I've added this task");
-                System.out.println(indent + line);
-                System.out.println(indent + "[" + tasks[taskCount].getTaskIcon() + "]["
-                        + tasks[taskCount].getStatusIcon() + "] " + tasks[taskCount].getDescription()
-                        + " (by: " + tasks[taskCount].getTime() + ")");
-                System.out.println(indent + line);
+                addDeadline(input, tasks, taskCount);
                 taskCount++;
-                System.out.println(indent + name + ": Now you have " + taskCount + " tasks in the list");
             } else if (input.startsWith("event")) {
-                int trigger = input.indexOf('/');
-                tasks[taskCount] = new Event(input.substring("event".length() + 1, trigger - 1),
-                        input.substring(trigger + "/at ".length()));
-                System.out.println(indent + name + ": Got it. I've added this task");
-                System.out.println(indent + line);
-                System.out.println(indent + "[" + tasks[taskCount].getTaskIcon() + "]["
-                        + tasks[taskCount].getStatusIcon() + "] " + tasks[taskCount].getDescription()
-                        + " (at: " + tasks[taskCount].getTime() + ")");
-                System.out.println(indent + line);
+                addEvent(input, tasks, taskCount);
                 taskCount++;
-                System.out.println(indent + name + ": Now you have " + taskCount + " tasks in the list");
             } else {
-                tasks[taskCount] = new Task(input);
-                taskCount++;
-                System.out.println(indent + name + ": \"" + input + "\" added");
+                System.out.println(" ☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
             }
         }
     }
+
+    private static void printList(Task[] tasks, int taskCount) {
+        printIndented(name + ": Here you go");
+        printIndented(line);
+        for (int i = 0; i < taskCount; i++) {
+            printIndented((i + 1) + ". [" + tasks[i].getTaskIcon() + "]["
+                    + tasks[i].getStatusIcon() + "] " + tasks[i].getDescription()
+                    + (tasks[i].hasTime() ? ((tasks[i] instanceof Deadline ? " (by: " : " (at: ")
+                    + tasks[i].getTime() + ")") : ""));
+        }
+        printIndented(line);
+    }
+
+    private static void printIndented(String message) {
+        System.out.println(indent + message);
+    }
+
+    private static void printBetweenBars(String message) {
+        printIndented(line);
+        System.out.println(message);
+        printIndented(line);
+    }
+
+    private static void printTaskAddedMessage(String message, int taskCount) {
+        printIndented(name + ": Got it. I've added this task");
+        printBetweenBars(message);
+        printIndented(name + ": Now you have " + (taskCount + 1) + " tasks in the list");
+    }
+
+    private static void addTodo(String input, Task[] tasks, int taskCount) {
+        tasks[taskCount] = new Todo(input.substring("todo".length() + 1));
+        printTaskAddedMessage(indent + "[" + tasks[taskCount].getTaskIcon() + "]["
+                + tasks[taskCount].getStatusIcon() + "] " + tasks[taskCount].getDescription(), taskCount);
+    }
+
+    private static void addDeadline(String input, Task[] tasks, int taskCount) {
+        int trigger = input.indexOf('/');
+        tasks[taskCount] = new Deadline(input.substring("deadline".length() + 1, trigger - 1),
+                input.substring(trigger + "/by ".length()));
+
+        printTaskAddedMessage(indent + "[" + tasks[taskCount].getTaskIcon() + "]["
+                + tasks[taskCount].getStatusIcon() + "] " + tasks[taskCount].getDescription(), taskCount);
+    }
+
+    private static void addEvent(String input, Task[] tasks, int taskCount) {
+        int trigger = input.indexOf('/');
+        tasks[taskCount] = new Event(input.substring("event".length() + 1, trigger - 1),
+                input.substring(trigger + "/at ".length()));
+
+        printTaskAddedMessage(indent + "[" + tasks[taskCount].getTaskIcon() + "]["
+                + tasks[taskCount].getStatusIcon() + "] " + tasks[taskCount].getDescription(), taskCount);
+    }
+
+    private static void addDone(int taskNumber, Task[] tasks) {
+        tasks[taskNumber].markAsDone();
+        printIndented(name + ": All right, consider it done: ");
+        printBetweenBars("[" + tasks[taskNumber].getStatusIcon() + "] " + tasks[taskNumber].getDescription());
+    }
+
 }
