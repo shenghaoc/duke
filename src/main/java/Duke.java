@@ -16,30 +16,34 @@ public class Duke {
         int taskCount = 0;
         for (; ; ) {
             String input = sc.nextLine();
-            if (input.equals("bye")) {
-                narutoSay("See you later!");
-                break;
-            } else if (input.equals("list")) {
-                printList(tasks, taskCount);
-            } else if (input.startsWith("done")) {
-                addDone(Integer.parseInt(input.substring("done".length() + 1)) - 1, tasks);
-            } else if (input.startsWith("todo")) {
-                try {
-                    addToDo(input, tasks, taskCount);
+            try {
+                if (input.equals("bye")) {
+                    narutoSay("See you later!");
+                    break;
+                } else if (input.equals("list")) {
+                    printList(tasks, taskCount);
+                } else if (input.startsWith("done")) {
+                    addDone(Integer.parseInt(input.substring("done".length() + 1)) - 1, tasks);
+                } else if (input.startsWith("todo")) {
+                    try {
+                        addToDo(input, tasks, taskCount);
+                        taskCount++;
+                    } catch (DukeException dE) {
+                        narutoSay("☹ OOPS!!! The description of a todo cannot be empty.");
+                    }
+                } else if (input.startsWith("deadline")) {
+                    addDeadline(input, tasks, taskCount);
                     taskCount++;
-                } catch (DukeException dE) {
-                    narutoSay("☹ OOPS!!! The description of a todo cannot be empty.");
+                } else if (input.startsWith("event")) {
+                    addEvent(input, tasks, taskCount);
+                    taskCount++;
+                } else if (input.startsWith("delete")) {
+                    taskCount--;
+                    delete(Integer.parseInt(input.substring("delete".length() + 1)) - 1, tasks, taskCount);
+                } else {
+                    throw new DukeException();
                 }
-            } else if (input.startsWith("deadline")) {
-                addDeadline(input, tasks, taskCount);
-                taskCount++;
-            } else if (input.startsWith("event")) {
-                addEvent(input, tasks, taskCount);
-                taskCount++;
-            } else if (input.startsWith("delete")) {
-                taskCount--;
-                delete(Integer.parseInt(input.substring("delete".length() + 1)) - 1, tasks, taskCount);
-            } else {
+            } catch (DukeException dE) {
                 narutoSay("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
             }
         }
