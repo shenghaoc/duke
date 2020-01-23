@@ -23,8 +23,12 @@ public class Duke {
             } else if (input.startsWith("done")) {
                 addDone(Integer.parseInt(input.substring("done".length() + 1)) - 1, tasks);
             } else if (input.startsWith("todo")) {
-                addTodo(input, tasks, taskCount);
-                taskCount++;
+                try {
+                    addToDo(input, tasks, taskCount);
+                    taskCount++;
+                } catch (DukeException dE) {
+                    System.out.println("☹ OOPS!!! The description of a todo cannot be empty.");
+                }
             } else if (input.startsWith("deadline")) {
                 addDeadline(input, tasks, taskCount);
                 taskCount++;
@@ -32,7 +36,7 @@ public class Duke {
                 addEvent(input, tasks, taskCount);
                 taskCount++;
             } else {
-                System.out.println(" ☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
+                System.out.println("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
             }
         }
     }
@@ -65,8 +69,11 @@ public class Duke {
         printIndented(name + ": Now you have " + (taskCount + 1) + " tasks in the list");
     }
 
-    private static void addTodo(String input, Task[] tasks, int taskCount) {
-        tasks[taskCount] = new Todo(input.substring("todo".length() + 1));
+    private static void addToDo(String input, Task[] tasks, int taskCount) throws DukeException {
+        if (input.length() <= ("todo".length() + 1)) {
+            throw new DukeException();
+        }
+        tasks[taskCount] = new ToDo(input.substring("todo".length() + 1));
         printTaskAddedMessage(indent + "[" + tasks[taskCount].getTaskIcon() + "]["
                 + tasks[taskCount].getStatusIcon() + "] " + tasks[taskCount].getDescription(), taskCount);
     }
@@ -91,7 +98,7 @@ public class Duke {
 
     private static void addDone(int taskNumber, Task[] tasks) {
         tasks[taskNumber].markAsDone();
-        printIndented(name + ": All right, consider it done: ");
+        printIndented(name + ": All right, consider it done");
         printBetweenBars("[" + tasks[taskNumber].getStatusIcon() + "] " + tasks[taskNumber].getDescription());
     }
 
