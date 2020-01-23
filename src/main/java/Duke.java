@@ -9,15 +9,15 @@ public class Duke {
     private static final String indent = "    ";
 
     public static void main(String[] args) {
-        System.out.println("Hi! I'm " + name);
-        System.out.println("How may I help you?");
+        narutoSay("Hi! I'm " + name);
+        narutoSay("How may I help you?");
 
         ArrayList<Task> tasks = new ArrayList<>();
         int taskCount = 0;
         for (; ; ) {
             String input = sc.nextLine();
             if (input.equals("bye")) {
-                printIndented(name + ": See you later!");
+                narutoSay("See you later!");
                 break;
             } else if (input.equals("list")) {
                 printList(tasks, taskCount);
@@ -28,7 +28,7 @@ public class Duke {
                     addToDo(input, tasks, taskCount);
                     taskCount++;
                 } catch (DukeException dE) {
-                    System.out.println("☹ OOPS!!! The description of a todo cannot be empty.");
+                    narutoSay("☹ OOPS!!! The description of a todo cannot be empty.");
                 }
             } else if (input.startsWith("deadline")) {
                 addDeadline(input, tasks, taskCount);
@@ -40,13 +40,17 @@ public class Duke {
                 taskCount--;
                 delete(Integer.parseInt(input.substring("delete".length() + 1)) - 1, tasks, taskCount);
             } else {
-                System.out.println("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
+                narutoSay("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
             }
         }
     }
 
+    private static void narutoSay(String message) {
+        printIndented(name + ": " + message);
+    }
+
     private static void printList(ArrayList<Task> tasks, int taskCount) {
-        printIndented(name + ": Here you go");
+        narutoSay("Here you go");
         printIndented(line);
         for (int i = 0; i < taskCount; i++) {
             printIndented((i + 1) + ". [" + tasks.get(i).getTaskIcon() + "]["
@@ -68,9 +72,9 @@ public class Duke {
     }
 
     private static void printTaskAddedMessage(String message, int taskCount) {
-        printIndented(name + ": Got it. I've added this task");
+        narutoSay("Got it. I've added this task");
         printBetweenBars(message);
-        printIndented(name + ": Now you have " + (taskCount + 1) + " tasks in the list");
+        narutoSay("Now you have " + (taskCount + 1) + " tasks in the list");
     }
 
     private static void addToDo(String input, ArrayList<Task> tasks, int taskCount) throws DukeException {
@@ -102,15 +106,15 @@ public class Duke {
 
     private static void addDone(int taskNumber, ArrayList<Task> tasks) {
         tasks.get(taskNumber).markAsDone();
-        printIndented(name + ": All right, consider it done");
+        narutoSay("All right, consider it done");
         printBetweenBars("[" + tasks.get(taskNumber).getStatusIcon() + "] " + tasks.get(taskNumber).getDescription());
     }
 
     private static void delete(int taskNumber, ArrayList<Task> tasks, int taskCount) {
-        printIndented(name + ": Noted. I've removed this task");
+        narutoSay("Noted. I've removed this task");
         printBetweenBars("[" + tasks.get(taskNumber).getTaskIcon() + "]["
                 + tasks.get(taskNumber).getStatusIcon() + "] " + tasks.get(taskNumber).getDescription());
-        printIndented(name + ": Now you have " + taskCount + " tasks in the list");
+        narutoSay("Now you have " + taskCount + " tasks in the list");
         tasks.remove(taskNumber);
     }
 
