@@ -1,6 +1,7 @@
 public class Task {
     protected String description;
     protected boolean isDone;
+    protected String time = "-1";
 
     public Task(String description) {
         this.description = description;
@@ -17,6 +18,18 @@ public class Task {
 
     public void markAsDone() {
         isDone = true;
+    }
+
+    public String getTaskIcon() {
+        return "0";
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public boolean hasTime() {
+        return false;
     }
 
     //...
