@@ -1,7 +1,11 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class Task {
     protected String description;
     protected boolean isDone;
     protected String time = "-1";
+    protected LocalDate processedTime = LocalDate.MIN;
 
     public Task(String description) {
         this.description = description;
@@ -25,12 +29,11 @@ public class Task {
     }
 
     public String getTime() {
-        return time;
+        return processedTime.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
     }
 
     public boolean hasTime() {
         return false;
     }
 
-    //...
 }
