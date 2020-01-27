@@ -39,7 +39,7 @@ public class Duke {
                         say("☹ OOPS!!! The description of a todo cannot be empty.");
                     }
                 } else if (input.startsWith("deadline")) {
-                    addDeadLINE(input, tasks, taskCount);
+                    addDeadline(input, tasks, taskCount);
                     taskCount++;
                 } else if (input.startsWith("event")) {
                     addEvent(input, tasks, taskCount);
@@ -97,7 +97,7 @@ public class Duke {
                 + tasks.get(taskCount).getStatusIcon() + "] " + tasks.get(taskCount).getDescription(), taskCount);
     }
 
-    private static void addDeadLINE(String input, ArrayList<Task> tasks, int taskCount) {
+    private static void addDeadline(String input, ArrayList<Task> tasks, int taskCount) {
         int trigger = input.indexOf('/');
         tasks.add(new Deadline(input.substring("deadline".length() + 1, trigger - 1),
                 input.substring(trigger + "/by ".length())));
