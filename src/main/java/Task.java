@@ -1,5 +1,4 @@
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class Task {
     protected String description;
@@ -29,7 +28,7 @@ public class Task {
     }
 
     public String getTime() {
-        return processedTime.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
+        return time;
     }
 
     public boolean hasTime() {
