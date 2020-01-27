@@ -1,13 +1,19 @@
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.File;
 
 public class Duke {
 
     private static final String NAME = "Naruto";
     private static final String LINE = "____________________________________________________________";
     private static final String INDENT = "    ";
+    private static final String FILE_PATH = "data/duke.txt";
 
     public static void main(String[] args) {
+        File f = new File(FILE_PATH);
         Scanner sc = new Scanner(System.in);
         say("Hi! I'm " + NAME);
         say("How may I help you?");
@@ -24,22 +30,27 @@ public class Duke {
                     printList(tasks, taskCount);
                 } else if (input.startsWith("done")) {
                     addDone(Integer.parseInt(input.substring("done".length() + 1)) - 1, tasks);
+                    save(tasks, f);
                 } else if (input.startsWith("todo")) {
                     try {
                         addToDo(input, tasks, taskCount);
                         taskCount++;
+                        save(tasks, f);
                     } catch (DukeException dE) {
                         say("☹ OOPS!!! The description of a todo cannot be empty.");
                     }
-                } else if (input.startsWith("deadLINE")) {
+                } else if (input.startsWith("deadline")) {
                     addDeadLINE(input, tasks, taskCount);
                     taskCount++;
+                    save(tasks, f);
                 } else if (input.startsWith("event")) {
                     addEvent(input, tasks, taskCount);
                     taskCount++;
+                    save(tasks, f);
                 } else if (input.startsWith("delete")) {
                     taskCount--;
                     delete(Integer.parseInt(input.substring("delete".length() + 1)) - 1, tasks, taskCount);
+                    save(tasks, f);
                 } else {
                     throw new DukeException();
                 }
@@ -92,7 +103,7 @@ public class Duke {
 
     private static void addDeadLINE(String input, ArrayList<Task> tasks, int taskCount) {
         int trigger = input.indexOf('/');
-        tasks.add(new Deadline(input.substring("deadLINE".length() + 1, trigger - 1),
+        tasks.add(new Deadline(input.substring("deadline".length() + 1, trigger - 1),
                 input.substring(trigger + "/by ".length())));
 
         printTaskAddedMessage("[" + tasks.get(taskCount).getTaskIcon() + "]["
@@ -120,6 +131,21 @@ public class Duke {
                 + tasks.get(taskNumber).getStatusIcon() + "] " + tasks.get(taskNumber).getDescription());
         say("Now you have " + taskCount + " tasks in the list");
         tasks.remove(taskNumber);
+    }
+
+    private static void save(ArrayList<Task> tasks, File f) {
+        try {
+            FileWriter fw = new FileWriter(FILE_PATH);
+            for (int i = 0; i < tasks.size(); i++) {
+                fw.write((i + 1) + ". [" + tasks.get(i).getTaskIcon() + "]["
+                        + tasks.get(i).getStatusIcon() + "] " + tasks.get(i).getDescription()
+                        + (tasks.get(i).hasTime() ? ((tasks.get(i) instanceof Deadline ? " (by: " : " (at: ")
+                        + tasks.get(i).getTime() + ")") : "") + System.lineSeparator());
+            }
+            fw.close();
+        } catch (IOException e) {
+            System.out.println("File not found");
+        }
     }
 
 }
