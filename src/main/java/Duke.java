@@ -5,6 +5,8 @@ import java.io.IOException;
 >>>>>>> branch-Level-7
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Duke {
 
@@ -36,7 +38,7 @@ public class Duke {
                     } catch (DukeException dE) {
                         say("☹ OOPS!!! The description of a todo cannot be empty.");
                     }
-                } else if (input.startsWith("deadLINE")) {
+                } else if (input.startsWith("deadline")) {
                     addDeadLINE(input, tasks, taskCount);
                     taskCount++;
                 } else if (input.startsWith("event")) {
@@ -97,7 +99,7 @@ public class Duke {
 
     private static void addDeadLINE(String input, ArrayList<Task> tasks, int taskCount) {
         int trigger = input.indexOf('/');
-        tasks.add(new Deadline(input.substring("deadLINE".length() + 1, trigger - 1),
+        tasks.add(new Deadline(input.substring("deadline".length() + 1, trigger - 1),
                 input.substring(trigger + "/by ".length())));
 
         printTaskAddedMessage("[" + tasks.get(taskCount).getTaskIcon() + "]["

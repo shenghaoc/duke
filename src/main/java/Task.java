@@ -1,7 +1,10 @@
+import java.time.LocalDate;
+
 public class Task {
     protected String description;
     protected boolean isDone;
     protected String time = "-1";
+    protected LocalDate processedTime = LocalDate.MIN;
 
     public Task(String description) {
         this.description = description;
@@ -32,5 +35,4 @@ public class Task {
         return false;
     }
 
-    //...
 }
