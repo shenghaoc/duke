@@ -70,6 +70,7 @@ public class Duke {
                         break;
                     }
                     case FIND:
+                        // Test merging
                         naruto.printMatchingItems(taskList.getUpdatedTasks(), input.substring("find".length() + 1));
                         break;
                 }
