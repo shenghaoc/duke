@@ -1,5 +1,8 @@
 import java.util.Scanner;
 
+/**
+ * The main entry point for the chat bot containing the main method
+ */
 public class Duke {
 
     private static final String FILE_PATH = "data/duke.txt";

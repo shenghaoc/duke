@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 
+/**
+ * Class to represent the user interface
+ */
 public class Ui {
 
     private String name = "Duke";
@@ -17,30 +20,54 @@ public class Ui {
         say("How may I help you?");
     }
 
+    /**
+     * Prints text from chat bot
+     * @param message Text to be said
+     */
     protected void say(String message) {
         printIndented(name + ": " + message);
     }
 
+    /**
+     * Adds task to list and prints message to indicate success
+     * @param message Information about added task
+     * @param taskCount Number of tasks in list - 1
+     */
     protected void printTaskAddedMessage(String message, int taskCount) {
         say("Got it. I've added this task");
         printBetweenBars(message);
         say("Now you have " + (taskCount + 1) + " tasks in the list");
     }
 
+    /**
+     * Prints message between two horizontal bars
+     * @param message Message to be printed
+     */
     protected void printBetweenBars(String message) {
         printBar();
         printIndented(message);
         printBar();
     }
 
+    /**
+     * Prints a horizontal bar
+     */
     protected void printBar() {
         printIndented(LINE);
     }
 
+    /**
+     * Prints the message with indentation of four spaces
+     * @param message Message to be printed
+     */
     protected void printIndented(String message) {
         System.out.println(INDENT + message);
     }
 
+    /**
+     * Prints list of tasks
+     * @param tasks List of tasks
+     */
     protected void printList(ArrayList<Task> tasks) {
         say("Here you go");
         printBar();
