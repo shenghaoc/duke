@@ -2,12 +2,14 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Duke {
-    private static Ui naruto;
 
+    private static final String FILE_PATH = "data/duke.txt";
+    private static Ui naruto;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         naruto = new Ui("Naruto");
+        Storage storage = new Storage(FILE_PATH);
 
         ArrayList<Task> tasks = new ArrayList<>();
         int taskCount = 0;
@@ -21,22 +23,27 @@ public class Duke {
                     printList(tasks, taskCount);
                 } else if (input.startsWith("done")) {
                     addDone(Integer.parseInt(input.substring("done".length() + 1)) - 1, tasks);
+                    storage.save(tasks);
                 } else if (input.startsWith("todo")) {
                     try {
                         addToDo(input, tasks, taskCount);
                         taskCount++;
+                        storage.save(tasks);
                     } catch (DukeException dE) {
                         naruto.say("☹ OOPS!!! The description of a todo cannot be empty.");
                     }
                 } else if (input.startsWith("deadline")) {
                     addDeadline(input, tasks, taskCount);
                     taskCount++;
+                    storage.save(tasks);
                 } else if (input.startsWith("event")) {
                     addEvent(input, tasks, taskCount);
                     taskCount++;
+                    storage.save(tasks);
                 } else if (input.startsWith("delete")) {
                     taskCount--;
                     delete(Integer.parseInt(input.substring("delete".length() + 1)) - 1, tasks, taskCount);
+                    storage.save(tasks);
                 } else {
                     throw new DukeException();
                 }
@@ -58,10 +65,6 @@ public class Duke {
         }
         naruto.printBar();
     }
-
-
-
-
 
     private static void addToDo(String input, ArrayList<Task> tasks, int taskCount) throws DukeException {
         if (input.length() <= ("todo".length() + 1)) {
