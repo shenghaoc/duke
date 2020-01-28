@@ -53,4 +53,17 @@ public class Ui {
         printBar();
     }
 
+    protected void printMatchingItems(ArrayList<Task> tasks, String keyword) {
+        say("Here are the matching tasks in your list");
+        printBar();
+        for (int i = 0; i < tasks.size(); i++) {
+            if (tasks.get(i).getDescription().contains(keyword)) {
+                printIndented((i + 1) + ". [" + tasks.get(i).getTaskIcon() + "]["
+                        + tasks.get(i).getStatusIcon() + "] " + tasks.get(i).getDescription()
+                        + (tasks.get(i).hasTime() ? ((tasks.get(i) instanceof Deadline ? " (by: " : " (at: ")
+                        + tasks.get(i).getTime() + ")") : ""));
+            }
+        }
+        printBar();
+    }
 }

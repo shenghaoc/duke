@@ -69,6 +69,9 @@ public class Duke {
                         storage.save(taskList.getUpdatedTasks());
                         break;
                     }
+                    case FIND:
+                        naruto.printMatchingItems(taskList.getUpdatedTasks(), input.substring("find".length() + 1));
+                        break;
                 }
             } catch (DukeException dE) {
                 naruto.say("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
