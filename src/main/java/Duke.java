@@ -66,14 +66,10 @@ public class Duke {
                         taskList.delete(taskNumber);
                         storage.save(taskList.getUpdatedTasks());
                         break;
-<<<<<<< HEAD
-                    }
                     case FIND:
                         // Test merging
                         naruto.printMatchingItems(taskList.getUpdatedTasks(), input.substring("find".length() + 1));
                         break;
-=======
->>>>>>> branch-A-CodingStandard
                 }
             } catch (DukeException dE) {
                 naruto.say("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
