@@ -15,6 +15,7 @@ public class Duke {
         for (; ; ) {
             String input = sc.nextLine();
             try {
+                int taskNumber;
                 switch (parser.parse(input)) {
                     case BYE:
                         naruto.say("See you later!");
@@ -22,18 +23,17 @@ public class Duke {
                     case LIST:
                         naruto.printList(taskList.getUpdatedTasks());
                         break;
-                    case DONE: {
-                        int taskNumber = Integer.parseInt(input.substring("done".length() + 1)) - 1;
+                    case DONE:
+                        taskNumber = Integer.parseInt(input.substring("done".length() + 1)) - 1;
                         taskList.addDone(taskNumber);
                         naruto.say("All right, consider it done");
                         naruto.printBetweenBars("[" + taskList.getStatusIcon(taskNumber) + "] "
                                 + taskList.getDescription(taskNumber));
                         storage.save(taskList.getUpdatedTasks());
                         break;
-                    }
                     case TODO:
                         try {
-                            int taskNumber = taskList.addToDo(input);
+                            taskNumber = taskList.addToDo(input);
                             naruto.printTaskAddedMessage("[" + taskList.getTaskIcon(taskNumber) + "]["
                                     + taskList.getStatusIcon(taskNumber) + "] "
                                     + taskList.getDescription(taskNumber), taskNumber);
@@ -42,25 +42,23 @@ public class Duke {
                             naruto.say("☹ OOPS!!! The description of a todo cannot be empty.");
                         }
                         break;
-                    case DEADLINE: {
-                        int taskNumber = taskList.addDeadline(input);
+                    case DEADLINE:
+                        taskNumber = taskList.addDeadline(input);
                         naruto.printTaskAddedMessage("[" + taskList.getTaskIcon(taskNumber) + "]["
                                 + taskList.getStatusIcon(taskNumber) + "] "
                                 + taskList.getDescription(taskNumber), taskNumber);
                         storage.save(taskList.getUpdatedTasks());
                         break;
-                    }
-                    case EVENT: {
-                        int taskNumber = taskList.addEvent(input);
+                    case EVENT:
+                        taskNumber = taskList.addEvent(input);
                         naruto.printTaskAddedMessage("[" + taskList.getTaskIcon(taskNumber) + "]["
                                 + taskList.getStatusIcon(taskNumber) + "] "
                                 + taskList.getDescription(taskNumber), taskNumber);
 
                         storage.save(taskList.getUpdatedTasks());
                         break;
-                    }
-                    case DELETE: {
-                        int taskNumber = Integer.parseInt(input.substring("delete".length() + 1)) - 1;
+                    case DELETE:
+                        taskNumber = Integer.parseInt(input.substring("delete".length() + 1)) - 1;
                         naruto.say("Noted. I've removed this task");
                         naruto.printBetweenBars("[" + taskList.getTaskIcon(taskNumber) + "]["
                                 + taskList.getStatusIcon(taskNumber) + "] " + taskList.getDescription(taskNumber));
@@ -68,7 +66,6 @@ public class Duke {
                         taskList.delete(taskNumber);
                         storage.save(taskList.getUpdatedTasks());
                         break;
-                    }
                 }
             } catch (DukeException dE) {
                 naruto.say("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
