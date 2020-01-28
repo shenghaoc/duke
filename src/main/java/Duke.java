@@ -1,23 +1,13 @@
-<<<<<<< HEAD
-=======
-import java.io.FileWriter;
-import java.io.IOException;
->>>>>>> branch-Level-7
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class Duke {
+    private static Ui naruto;
 
-    private static final String NAME = "Naruto";
-    private static final String LINE = "____________________________________________________________";
-    private static final String INDENT = "    ";
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        say("Hi! I'm " + NAME);
-        say("How may I help you?");
+        naruto = new Ui("Naruto");
 
         ArrayList<Task> tasks = new ArrayList<>();
         int taskCount = 0;
@@ -25,7 +15,7 @@ public class Duke {
             String input = sc.nextLine();
             try {
                 if (input.equals("bye")) {
-                    say("See you later!");
+                    naruto.say("See you later!");
                     break;
                 } else if (input.equals("list")) {
                     printList(tasks, taskCount);
@@ -36,7 +26,7 @@ public class Duke {
                         addToDo(input, tasks, taskCount);
                         taskCount++;
                     } catch (DukeException dE) {
-                        say("☹ OOPS!!! The description of a todo cannot be empty.");
+                        naruto.say("☹ OOPS!!! The description of a todo cannot be empty.");
                     }
                 } else if (input.startsWith("deadline")) {
                     addDeadline(input, tasks, taskCount);
@@ -51,49 +41,34 @@ public class Duke {
                     throw new DukeException();
                 }
             } catch (DukeException dE) {
-                say("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
+                naruto.say("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
             }
         }
     }
 
-    private static void say(String message) {
-        printIndented(NAME + ": " + message);
-    }
 
     private static void printList(ArrayList<Task> tasks, int taskCount) {
-        say("Here you go");
-        printIndented(LINE);
+        naruto.say("Here you go");
+        naruto.printBar();
         for (int i = 0; i < taskCount; i++) {
-            printIndented((i + 1) + ". [" + tasks.get(i).getTaskIcon() + "]["
+            naruto.printIndented((i + 1) + ". [" + tasks.get(i).getTaskIcon() + "]["
                     + tasks.get(i).getStatusIcon() + "] " + tasks.get(i).getDescription()
                     + (tasks.get(i).hasTime() ? ((tasks.get(i) instanceof Deadline ? " (by: " : " (at: ")
                     + tasks.get(i).getTime() + ")") : ""));
         }
-        printIndented(LINE);
+        naruto.printBar();
     }
 
-    private static void printIndented(String message) {
-        System.out.println(INDENT + message);
-    }
 
-    private static void printBetweenBars(String message) {
-        printIndented(LINE);
-        printIndented(message);
-        printIndented(LINE);
-    }
 
-    private static void printTaskAddedMessage(String message, int taskCount) {
-        say("Got it. I've added this task");
-        printBetweenBars(message);
-        say("Now you have " + (taskCount + 1) + " tasks in the list");
-    }
+
 
     private static void addToDo(String input, ArrayList<Task> tasks, int taskCount) throws DukeException {
         if (input.length() <= ("todo".length() + 1)) {
             throw new DukeException();
         }
         tasks.add(new ToDo(input.substring("todo".length() + 1)));
-        printTaskAddedMessage("[" + tasks.get(taskCount).getTaskIcon() + "]["
+        naruto.printTaskAddedMessage("[" + tasks.get(taskCount).getTaskIcon() + "]["
                 + tasks.get(taskCount).getStatusIcon() + "] " + tasks.get(taskCount).getDescription(), taskCount);
     }
 
@@ -102,7 +77,7 @@ public class Duke {
         tasks.add(new Deadline(input.substring("deadline".length() + 1, trigger - 1),
                 input.substring(trigger + "/by ".length())));
 
-        printTaskAddedMessage("[" + tasks.get(taskCount).getTaskIcon() + "]["
+        naruto.printTaskAddedMessage("[" + tasks.get(taskCount).getTaskIcon() + "]["
                 + tasks.get(taskCount).getStatusIcon() + "] " + tasks.get(taskCount).getDescription(), taskCount);
     }
 
@@ -111,21 +86,21 @@ public class Duke {
         tasks.add(new Event(input.substring("event".length() + 1, trigger - 1),
                 input.substring(trigger + "/at ".length())));
 
-        printTaskAddedMessage("[" + tasks.get(taskCount).getTaskIcon() + "]["
+        naruto.printTaskAddedMessage("[" + tasks.get(taskCount).getTaskIcon() + "]["
                 + tasks.get(taskCount).getStatusIcon() + "] " + tasks.get(taskCount).getDescription(), taskCount);
     }
 
     private static void addDone(int taskNumber, ArrayList<Task> tasks) {
         tasks.get(taskNumber).markAsDone();
-        say("All right, consider it done");
-        printBetweenBars("[" + tasks.get(taskNumber).getStatusIcon() + "] " + tasks.get(taskNumber).getDescription());
+        naruto.say("All right, consider it done");
+        naruto.printBetweenBars("[" + tasks.get(taskNumber).getStatusIcon() + "] " + tasks.get(taskNumber).getDescription());
     }
 
     private static void delete(int taskNumber, ArrayList<Task> tasks, int taskCount) {
-        say("Noted. I've removed this task");
-        printBetweenBars("[" + tasks.get(taskNumber).getTaskIcon() + "]["
+        naruto.say("Noted. I've removed this task");
+        naruto.printBetweenBars("[" + tasks.get(taskNumber).getTaskIcon() + "]["
                 + tasks.get(taskNumber).getStatusIcon() + "] " + tasks.get(taskNumber).getDescription());
-        say("Now you have " + taskCount + " tasks in the list");
+        naruto.say("Now you have " + taskCount + " tasks in the list");
         tasks.remove(taskNumber);
     }
 
