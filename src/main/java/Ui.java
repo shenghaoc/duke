@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Ui {
 
     private String name = "Duke";
@@ -39,5 +41,16 @@ public class Ui {
         System.out.println(INDENT + message);
     }
 
+    protected void printList(ArrayList<Task> tasks) {
+        say("Here you go");
+        printBar();
+        for (int i = 0; i < tasks.size(); i++) {
+            printIndented((i + 1) + ". [" + tasks.get(i).getTaskIcon() + "]["
+                    + tasks.get(i).getStatusIcon() + "] " + tasks.get(i).getDescription()
+                    + (tasks.get(i).hasTime() ? ((tasks.get(i) instanceof Deadline ? " (by: " : " (at: ")
+                    + tasks.get(i).getTime() + ")") : ""));
+        }
+        printBar();
+    }
 
 }

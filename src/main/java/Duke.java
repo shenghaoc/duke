@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.util.ArrayList;
 
 public class Duke {
 
@@ -10,9 +9,8 @@ public class Duke {
         Scanner sc = new Scanner(System.in);
         naruto = new Ui("Naruto");
         Storage storage = new Storage(FILE_PATH);
+        TaskList taskList = new TaskList();
 
-        ArrayList<Task> tasks = new ArrayList<>();
-        int taskCount = 0;
         for (; ; ) {
             String input = sc.nextLine();
             try {
@@ -20,30 +18,45 @@ public class Duke {
                     naruto.say("See you later!");
                     break;
                 } else if (input.equals("list")) {
-                    printList(tasks, taskCount);
+                    naruto.printList(taskList.getUpdatedTasks());
                 } else if (input.startsWith("done")) {
-                    addDone(Integer.parseInt(input.substring("done".length() + 1)) - 1, tasks);
-                    storage.save(tasks);
+                    int taskNumber = Integer.parseInt(input.substring("done".length() + 1)) - 1;
+                    taskList.addDone(taskNumber);
+                    naruto.say("All right, consider it done");
+                    naruto.printBetweenBars("[" + taskList.getStatusIcon(taskNumber) + "] "
+                            + taskList.getDescription(taskNumber));
+                    storage.save(taskList.getUpdatedTasks());
                 } else if (input.startsWith("todo")) {
                     try {
-                        addToDo(input, tasks, taskCount);
-                        taskCount++;
-                        storage.save(tasks);
+                        int taskNumber = taskList.addToDo(input);
+                        naruto.printTaskAddedMessage("[" + taskList.getTaskIcon(taskNumber) + "]["
+                                + taskList.getStatusIcon(taskNumber) + "] "
+                                + taskList.getDescription(taskNumber), taskNumber);
+                        storage.save(taskList.getUpdatedTasks());
                     } catch (DukeException dE) {
                         naruto.say("☹ OOPS!!! The description of a todo cannot be empty.");
                     }
                 } else if (input.startsWith("deadline")) {
-                    addDeadline(input, tasks, taskCount);
-                    taskCount++;
-                    storage.save(tasks);
+                    int taskNumber = taskList.addDeadline(input);
+                    naruto.printTaskAddedMessage("[" + taskList.getTaskIcon(taskNumber) + "]["
+                            + taskList.getStatusIcon(taskNumber) + "] "
+                            + taskList.getDescription(taskNumber), taskNumber);
+                    storage.save(taskList.getUpdatedTasks());
                 } else if (input.startsWith("event")) {
-                    addEvent(input, tasks, taskCount);
-                    taskCount++;
-                    storage.save(tasks);
+                    int taskNumber = taskList.addEvent(input);
+                    naruto.printTaskAddedMessage("[" + taskList.getTaskIcon(taskNumber) + "]["
+                            + taskList.getStatusIcon(taskNumber) + "] "
+                            + taskList.getDescription(taskNumber), taskNumber);
+
+                    storage.save(taskList.getUpdatedTasks());
                 } else if (input.startsWith("delete")) {
-                    taskCount--;
-                    delete(Integer.parseInt(input.substring("delete".length() + 1)) - 1, tasks, taskCount);
-                    storage.save(tasks);
+                    int taskNumber = Integer.parseInt(input.substring("delete".length() + 1)) - 1;
+                    naruto.say("Noted. I've removed this task");
+                    naruto.printBetweenBars("[" + taskList.getTaskIcon(taskNumber) + "]["
+                            + taskList.getStatusIcon(taskNumber) + "] " + taskList.getDescription(taskNumber));
+                    naruto.say("Now you have " + (taskList.getTaskCount() - 1) + " tasks in the list");
+                    taskList.delete(taskNumber);
+                    storage.save(taskList.getUpdatedTasks());
                 } else {
                     throw new DukeException();
                 }
@@ -52,59 +65,4 @@ public class Duke {
             }
         }
     }
-
-
-    private static void printList(ArrayList<Task> tasks, int taskCount) {
-        naruto.say("Here you go");
-        naruto.printBar();
-        for (int i = 0; i < taskCount; i++) {
-            naruto.printIndented((i + 1) + ". [" + tasks.get(i).getTaskIcon() + "]["
-                    + tasks.get(i).getStatusIcon() + "] " + tasks.get(i).getDescription()
-                    + (tasks.get(i).hasTime() ? ((tasks.get(i) instanceof Deadline ? " (by: " : " (at: ")
-                    + tasks.get(i).getTime() + ")") : ""));
-        }
-        naruto.printBar();
-    }
-
-    private static void addToDo(String input, ArrayList<Task> tasks, int taskCount) throws DukeException {
-        if (input.length() <= ("todo".length() + 1)) {
-            throw new DukeException();
-        }
-        tasks.add(new ToDo(input.substring("todo".length() + 1)));
-        naruto.printTaskAddedMessage("[" + tasks.get(taskCount).getTaskIcon() + "]["
-                + tasks.get(taskCount).getStatusIcon() + "] " + tasks.get(taskCount).getDescription(), taskCount);
-    }
-
-    private static void addDeadline(String input, ArrayList<Task> tasks, int taskCount) {
-        int trigger = input.indexOf('/');
-        tasks.add(new Deadline(input.substring("deadline".length() + 1, trigger - 1),
-                input.substring(trigger + "/by ".length())));
-
-        naruto.printTaskAddedMessage("[" + tasks.get(taskCount).getTaskIcon() + "]["
-                + tasks.get(taskCount).getStatusIcon() + "] " + tasks.get(taskCount).getDescription(), taskCount);
-    }
-
-    private static void addEvent(String input, ArrayList<Task> tasks, int taskCount) {
-        int trigger = input.indexOf('/');
-        tasks.add(new Event(input.substring("event".length() + 1, trigger - 1),
-                input.substring(trigger + "/at ".length())));
-
-        naruto.printTaskAddedMessage("[" + tasks.get(taskCount).getTaskIcon() + "]["
-                + tasks.get(taskCount).getStatusIcon() + "] " + tasks.get(taskCount).getDescription(), taskCount);
-    }
-
-    private static void addDone(int taskNumber, ArrayList<Task> tasks) {
-        tasks.get(taskNumber).markAsDone();
-        naruto.say("All right, consider it done");
-        naruto.printBetweenBars("[" + tasks.get(taskNumber).getStatusIcon() + "] " + tasks.get(taskNumber).getDescription());
-    }
-
-    private static void delete(int taskNumber, ArrayList<Task> tasks, int taskCount) {
-        naruto.say("Noted. I've removed this task");
-        naruto.printBetweenBars("[" + tasks.get(taskNumber).getTaskIcon() + "]["
-                + tasks.get(taskNumber).getStatusIcon() + "] " + tasks.get(taskNumber).getDescription());
-        naruto.say("Now you have " + taskCount + " tasks in the list");
-        tasks.remove(taskNumber);
-    }
-
 }
