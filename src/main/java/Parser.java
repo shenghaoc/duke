@@ -1,4 +1,15 @@
+/**
+ * Class to process user input
+ */
+
 public class Parser {
+    /**
+     * Processes user input to determine type of command, represented by an anum
+     *
+     * @param input text entered by user
+     * @return An enum for the command type
+     * @throws DukeException
+     */
     protected Command parse(String input) throws DukeException {
         if (input.equals("bye")) {
             return Command.BYE;
