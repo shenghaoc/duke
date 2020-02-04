@@ -24,8 +24,8 @@ public class Ui {
      * Prints text from chat bot
      * @param message Text to be said
      */
-    protected void say(String message) {
-        printIndented(name + ": " + message);
+    protected String say(String message) {
+        return indent(name + ": " + message) + System.lineSeparator();
     }
 
     /**
@@ -33,64 +33,61 @@ public class Ui {
      * @param message Information about added task
      * @param taskCount Number of tasks in list - 1
      */
-    protected void printTaskAddedMessage(String message, int taskCount) {
-        say("Got it. I've added this task");
-        printBetweenBars(message);
-        say("Now you have " + (taskCount + 1) + " tasks in the list");
+    protected String taskAddedMessage(String message, int taskCount) {
+        return say("Got it. I've added this task") + format(message)
+                + say("Now you have " + (taskCount + 1) + " tasks in the list");
     }
 
     /**
      * Prints message between two horizontal bars
      * @param message Message to be printed
      */
-    protected void printBetweenBars(String message) {
-        printBar();
-        printIndented(message);
-        printBar();
+    protected String format(String message) {
+        return bar() + indent(message) + bar() + System.lineSeparator();
     }
 
     /**
      * Prints a horizontal bar
      */
-    protected void printBar() {
-        printIndented(LINE);
+    protected String bar() {
+        return indent(LINE) + System.lineSeparator();
     }
 
     /**
      * Prints the message with indentation of four spaces
      * @param message Message to be printed
      */
-    protected void printIndented(String message) {
-        System.out.println(INDENT + message);
+    protected String indent(String message) {
+        return INDENT + message;
     }
 
     /**
      * Prints list of tasks
      * @param tasks List of tasks
      */
-    protected void printList(ArrayList<Task> tasks) {
-        say("Here you go");
-        printBar();
+    protected String list(ArrayList<Task> tasks) {
+        StringBuilder message = new StringBuilder(say("Here you go"));
+        message.append(bar());
         for (int i = 0; i < tasks.size(); i++) {
-            printIndented((i + 1) + ". [" + tasks.get(i).getTaskIcon() + "]["
+            message.append(indent((i + 1) + ". [" + tasks.get(i).getTaskIcon() + "]["
                     + tasks.get(i).getStatusIcon() + "] " + tasks.get(i).getDescription()
                     + (tasks.get(i).hasTime() ? ((tasks.get(i) instanceof Deadline ? " (by: " : " (at: ")
-                    + tasks.get(i).getTime() + ")") : ""));
+                    + tasks.get(i).getTime() + ")") : "")) + System.lineSeparator());
         }
-        printBar();
+        return message.append(bar()).toString();
     }
 
-    protected void printMatchingItems(ArrayList<Task> tasks, String keyword) {
-        say("Here are the matching tasks in your list");
-        printBar();
+    protected String matchingItems(ArrayList<Task> tasks, String keyword) {
+        StringBuilder message = new StringBuilder(say("Here are the matching tasks in your list"));
+        message.append(bar());
         for (int i = 0; i < tasks.size(); i++) {
             if (tasks.get(i).getDescription().contains(keyword)) {
-                printIndented((i + 1) + ". [" + tasks.get(i).getTaskIcon() + "]["
+                message.append(indent((i + 1) + ". [" + tasks.get(i).getTaskIcon() + "]["
                         + tasks.get(i).getStatusIcon() + "] " + tasks.get(i).getDescription()
                         + (tasks.get(i).hasTime() ? ((tasks.get(i) instanceof Deadline ? " (by: " : " (at: ")
-                        + tasks.get(i).getTime() + ")") : ""));
+                        + tasks.get(i).getTime() + ")") : "")) + System.lineSeparator());
             }
         }
-        printBar();
+        return message.append(bar()).toString();
     }
 }

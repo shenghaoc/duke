@@ -1,4 +1,5 @@
 import java.util.Scanner;
+
 import javafx.application.Application;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -27,85 +28,78 @@ public class Duke {
     private Image user = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
     private Image duke = new Image(this.getClass().getResourceAsStream("/images/DaDuke.png"));
 
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        Ui naruto = new Ui("Naruto");
-        Storage storage = new Storage(FILE_PATH);
-        TaskList taskList = new TaskList();
-        Parser parser = new Parser();
-
-        label:
-        for (; ; ) {
-            String input = sc.nextLine();
-            try {
-                int taskNumber;
-                switch (parser.parse(input)) {
-                    case BYE:
-                        naruto.say("See you later!");
-                        break label;
-                    case LIST:
-                        naruto.printList(taskList.getUpdatedTasks());
-                        break;
-                    case DONE:
-                        taskNumber = Integer.parseInt(input.substring("done".length() + 1)) - 1;
-                        taskList.addDone(taskNumber);
-                        naruto.say("All right, consider it done");
-                        naruto.printBetweenBars("[" + taskList.getStatusIcon(taskNumber) + "] "
-                                + taskList.getDescription(taskNumber));
-                        storage.save(taskList.getUpdatedTasks());
-                        break;
-                    case TODO:
-                        try {
-                            taskNumber = taskList.addToDo(input);
-                            naruto.printTaskAddedMessage("[" + taskList.getTaskIcon(taskNumber) + "]["
-                                    + taskList.getStatusIcon(taskNumber) + "] "
-                                    + taskList.getDescription(taskNumber), taskNumber);
-                            storage.save(taskList.getUpdatedTasks());
-                        } catch (DukeException dE) {
-                            naruto.say("☹ OOPS!!! The description of a todo cannot be empty.");
-                        }
-                        break;
-                    case DEADLINE:
-                        taskNumber = taskList.addDeadline(input);
-                        naruto.printTaskAddedMessage("[" + taskList.getTaskIcon(taskNumber) + "]["
-                                + taskList.getStatusIcon(taskNumber) + "] "
-                                + taskList.getDescription(taskNumber), taskNumber);
-                        storage.save(taskList.getUpdatedTasks());
-                        break;
-                    case EVENT:
-                        taskNumber = taskList.addEvent(input);
-                        naruto.printTaskAddedMessage("[" + taskList.getTaskIcon(taskNumber) + "]["
-                                + taskList.getStatusIcon(taskNumber) + "] "
-                                + taskList.getDescription(taskNumber), taskNumber);
-
-                        storage.save(taskList.getUpdatedTasks());
-                        break;
-                    case DELETE:
-                        taskNumber = Integer.parseInt(input.substring("delete".length() + 1)) - 1;
-                        naruto.say("Noted. I've removed this task");
-                        naruto.printBetweenBars("[" + taskList.getTaskIcon(taskNumber) + "]["
-                                + taskList.getStatusIcon(taskNumber) + "] " + taskList.getDescription(taskNumber));
-                        naruto.say("Now you have " + (taskList.getTaskCount() - 1) + " tasks in the list");
-                        taskList.delete(taskNumber);
-                        storage.save(taskList.getUpdatedTasks());
-                        break;
-                    case FIND:
-                        // Test merging
-                        naruto.printMatchingItems(taskList.getUpdatedTasks(), input.substring("find".length() + 1));
-                        break;
-                }
-            } catch (DukeException dE) {
-                naruto.say("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
-            }
-        }
-    }
-
     /**
      * You should have your own function to generate a response to user input.
      * Replace this stub with your completed method.
      */
     String getResponse(String input) {
+        Ui naruto = new Ui("Naruto");
+        Storage storage = new Storage(FILE_PATH);
+        TaskList taskList = new TaskList();
+        Parser parser = new Parser();
+
+        try {
+            int taskNumber;
+            StringBuilder message;
+            switch (parser.parse(input)) {
+                case BYE:
+                    return naruto.say("See you later!");
+                case LIST:
+                    return naruto.list(taskList.getUpdatedTasks());
+                case DONE:
+                    taskNumber = Integer.parseInt(input.substring("done".length() + 1)) - 1;
+                    taskList.addDone(taskNumber);
+
+                    message = new StringBuilder(naruto.say("All right, consider it done"));
+                    message.append(naruto.format("[" + taskList.getStatusIcon(taskNumber) + "] "
+                            + taskList.getDescription(taskNumber)));
+                    storage.save(taskList.getUpdatedTasks());
+                    return message.toString();
+                case TODO:
+                    try {
+                        taskNumber = taskList.addToDo(input);
+                        message = new StringBuilder(naruto.taskAddedMessage("[" + taskList.getTaskIcon(taskNumber) + "]["
+                                + taskList.getStatusIcon(taskNumber) + "] "
+                                + taskList.getDescription(taskNumber), taskNumber));
+                        storage.save(taskList.getUpdatedTasks());
+                        return message.toString();
+                    } catch (DukeException dE) {
+                        return naruto.say("☹ OOPS!!! The description of a todo cannot be empty.");
+                    }
+                case DEADLINE:
+                    taskNumber = taskList.addDeadline(input);
+                    message = new StringBuilder();
+                    message.append(naruto.taskAddedMessage("[" + taskList.getTaskIcon(taskNumber) + "]["
+                            + taskList.getStatusIcon(taskNumber) + "] "
+                            + taskList.getDescription(taskNumber), taskNumber));
+                    storage.save(taskList.getUpdatedTasks());
+                    return message.toString();
+                case EVENT:
+                    taskNumber = taskList.addEvent(input);
+                    message = new StringBuilder();
+                    message.append(naruto.taskAddedMessage("[" + taskList.getTaskIcon(taskNumber) + "]["
+                            + taskList.getStatusIcon(taskNumber) + "] "
+                            + taskList.getDescription(taskNumber), taskNumber));
+
+                    storage.save(taskList.getUpdatedTasks());
+                    return message.toString();
+                case DELETE:
+                    taskNumber = Integer.parseInt(input.substring("delete".length() + 1)) - 1;
+                    message = new StringBuilder();
+                    message.append(naruto.say("Noted. I've removed this task"));
+                    message.append(naruto.format("[" + taskList.getTaskIcon(taskNumber) + "]["
+                            + taskList.getStatusIcon(taskNumber) + "] " + taskList.getDescription(taskNumber)));
+                    message.append(naruto.say("Now you have " + (taskList.getTaskCount() - 1) + " tasks in the list"));
+                    taskList.delete(taskNumber);
+                    storage.save(taskList.getUpdatedTasks());
+                    return message.toString();
+                case FIND:
+                    // Test merging
+                    return naruto.matchingItems(taskList.getUpdatedTasks(), input.substring("find".length() + 1));
+            }
+        } catch (DukeException dE) {
+            return naruto.say("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
+        }
         return "Duke heard: " + input;
     }
 }
