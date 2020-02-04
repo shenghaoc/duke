@@ -1,4 +1,17 @@
 import java.util.Scanner;
+import javafx.application.Application;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * The main entry point for the chat bot containing the main method
@@ -6,6 +19,14 @@ import java.util.Scanner;
 public class Duke {
 
     private static final String FILE_PATH = "data/duke.txt";
+    private ScrollPane scrollPane;
+    private VBox dialogContainer;
+    private TextField userInput;
+    private Button sendButton;
+    private Scene scene;
+    private Image user = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
+    private Image duke = new Image(this.getClass().getResourceAsStream("/images/DaDuke.png"));
+
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -78,5 +99,13 @@ public class Duke {
                 naruto.say("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
             }
         }
+    }
+
+    /**
+     * You should have your own function to generate a response to user input.
+     * Replace this stub with your completed method.
+     */
+    String getResponse(String input) {
+        return "Duke heard: " + input;
     }
 }
