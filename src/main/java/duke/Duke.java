@@ -1,3 +1,7 @@
+package duke;
+
+import duke.exception.DukeException;
+
 /**
  * The main entry point for the chat bot containing the main method
  */
@@ -13,7 +17,7 @@ public class Duke {
      * You should have your own function to generate a response to user input.
      * Replace this stub with your completed method.
      */
-    String getResponse(String input) {
+    public String getResponse(String input) {
         try {
             int taskNumber;
             StringBuilder message;
@@ -27,7 +31,7 @@ public class Duke {
                 taskList.addDone(taskNumber);
 
                 // Ensure that status icon is now a tick
-                assert taskList.getStatusIcon(taskNumber).equals("\u2713") : "Task status not done!";
+                assert taskList.getStatusIcon(taskNumber).equals("\u2713") : "duke.task.Task status not done!";
 
                 message = new StringBuilder(naruto.say("All right, consider it done"));
                 message.append(naruto.format("[" + taskList.getStatusIcon(taskNumber) + "] "
@@ -56,7 +60,7 @@ public class Duke {
             case DELETE:
                 int originalTaskCount = taskList.getTaskCount();
                 taskNumber = Integer.parseInt(input.substring("delete".length() + 1)) - 1;
-                message = new StringBuilder(naruto.say("Noted. I've removed this task"));
+                message = new StringBuilder(naruto.say("Noted. I've removed this duke.task"));
                 message.append(naruto.format("[" + taskList.getTaskIcon(taskNumber) + "]["
                         + taskList.getStatusIcon(taskNumber) + "] " + taskList.getDescription(taskNumber)));
                 taskList.delete(taskNumber);
@@ -71,6 +75,6 @@ public class Duke {
         } catch (DukeException dE) {
             return naruto.say("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
         }
-        return "Duke heard: " + input;
+        return "duke.Duke heard: " + input;
     }
 }

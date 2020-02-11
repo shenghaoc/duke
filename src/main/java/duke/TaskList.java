@@ -1,3 +1,11 @@
+package duke;
+
+import duke.exception.DukeException;
+import duke.task.Deadline;
+import duke.task.Event;
+import duke.task.Task;
+import duke.task.ToDo;
+
 import java.util.ArrayList;
 
 /**
@@ -16,29 +24,29 @@ public class TaskList {
     }
 
     /**
-     * Calls function to get description for specific task in list
-     * @param index of specific task
-     * @return description of specific task
+     * Calls function to get description for specific duke.task in list
+     * @param index of specific duke.task
+     * @return description of specific duke.task
      */
     public String getDescription(int index) {
         return tasks.get(index).getDescription();
     }
 
     /**
-     * Calls function to get status icon for specific task in list
+     * Calls function to get status icon for specific duke.task in list
      *
-     * @param index of specific task
-     * @return status icon of specific task
+     * @param index of specific duke.task
+     * @return status icon of specific duke.task
      */
     public String getStatusIcon(int index) {
         return tasks.get(index).getStatusIcon();
     }
 
     /**
-     * Calls function to get task icon for specific task in list
+     * Calls function to get duke.task icon for specific duke.task in list
      *
-     * @param index of specific task
-     * @return task icon of specific task
+     * @param index of specific duke.task
+     * @return duke.task icon of specific duke.task
      */
     public String getTaskIcon(int index) {
         return tasks.get(index).getTaskIcon();
@@ -87,18 +95,18 @@ public class TaskList {
      }
 
     /**
-     * Calls function for specific task to mark itself as done
+     * Calls function for specific duke.task to mark itself as done
      *
-     * @param taskNumber Index for task to be marked as done
+     * @param taskNumber Index for duke.task to be marked as done
      */
     protected void addDone(int taskNumber) {
         tasks.get(taskNumber).markAsDone();
     }
 
     /**
-     * Deletes specific task at index from list
+     * Deletes specific duke.task at index from list
      *
-     * @param taskNumber index of task to be deleted
+     * @param taskNumber index of duke.task to be deleted
      */
     protected void delete(int taskNumber) {
         tasks.remove(taskNumber);

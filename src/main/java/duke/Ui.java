@@ -1,3 +1,7 @@
+package duke;
+
+import duke.task.Task;
+
 import java.util.ArrayList;
 
 /**
@@ -24,12 +28,12 @@ public class Ui {
     }
 
     /**
-     * Adds task to list and prints message to indicate success
-     * @param message Information about added task
+     * Adds duke.task to list and prints message to indicate success
+     * @param message Information about added duke.task
      * @param taskNumber Number of tasks in list - 1
      */
     protected String taskAddedMessage(String message, int taskNumber) {
-        return say("Got it. I've added this task") + format(message)
+        return say("Got it. I've added this duke.task") + format(message)
                 + say("Now you have " + (taskNumber + 1) + " tasks in the list");
     }
 
