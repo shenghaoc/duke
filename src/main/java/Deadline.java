@@ -30,4 +30,9 @@ public class Deadline extends Task {
                 ? processedTime.format(DateTimeFormatter.ofPattern("MMM d yyyy"))
                 : time;
     }
+
+    @Override
+    public String toString() {
+        return "[D][" + getStatusIcon() + "] " + description + (hasTime() ? " (by: " + time + ")" : "");
+    }
 }

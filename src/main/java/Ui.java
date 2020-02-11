@@ -43,7 +43,7 @@ public class Ui {
      * @param message Message to be printed
      */
     protected String format(String message) {
-        return bar() + indent(message) + bar() + System.lineSeparator();
+        return bar() + indent(message) +System.lineSeparator()+ bar() + System.lineSeparator();
     }
 
     /**
@@ -69,10 +69,7 @@ public class Ui {
         StringBuilder message = new StringBuilder(say("Here you go"));
         message.append(bar());
         for (int i = 0; i < tasks.size(); i++) {
-            message.append(indent((i + 1) + ". [" + tasks.get(i).getTaskIcon() + "]["
-                    + tasks.get(i).getStatusIcon() + "] " + tasks.get(i).getDescription()
-                    + (tasks.get(i).hasTime() ? ((tasks.get(i) instanceof Deadline ? " (by: " : " (at: ")
-                    + tasks.get(i).getTime() + ")") : "")) + System.lineSeparator());
+            message.append(indent((i + 1) + ". " + tasks.get(i).toString())).append(System.lineSeparator());
         }
         return message.append(bar()).toString();
     }

@@ -21,10 +21,7 @@ public class Storage {
         try {
             FileWriter fw = new FileWriter(filePath);
             for (int i = 0; i < tasks.size(); i++) {
-                fw.write((i + 1) + ". [" + tasks.get(i).getTaskIcon() + "]["
-                        + tasks.get(i).getStatusIcon() + "] " + tasks.get(i).getDescription()
-                        + (tasks.get(i).hasTime() ? ((tasks.get(i) instanceof Deadline ? " (by: " : " (at: ")
-                        + tasks.get(i).getTime() + ")") : "") + System.lineSeparator());
+                fw.write((i + 1) + ". " + tasks.get(i).toString() + System.lineSeparator());
             }
             fw.close();
         } catch (IOException e) {

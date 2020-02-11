@@ -57,9 +57,7 @@ public class Duke {
                 case TODO:
                     try {
                         taskNumber = taskList.addToDo(input);
-                        message = new StringBuilder(naruto.taskAddedMessage("[" + taskList.getTaskIcon(taskNumber) + "]["
-                                + taskList.getStatusIcon(taskNumber) + "] "
-                                + taskList.getDescription(taskNumber), taskNumber));
+                        message = new StringBuilder(naruto.taskAddedMessage(taskList.getTask(taskNumber).toString(), taskNumber));
                         storage.save(taskList.getUpdatedTasks());
                         return message.toString();
                     } catch (DukeException dE) {
@@ -67,18 +65,12 @@ public class Duke {
                     }
                 case DEADLINE:
                     taskNumber = taskList.addDeadline(input);
-                    message = new StringBuilder();
-                    message.append(naruto.taskAddedMessage("[" + taskList.getTaskIcon(taskNumber) + "]["
-                            + taskList.getStatusIcon(taskNumber) + "] "
-                            + taskList.getDescription(taskNumber), taskNumber));
+                    message = new StringBuilder(naruto.taskAddedMessage(taskList.getTask(taskNumber).toString(), taskNumber));
                     storage.save(taskList.getUpdatedTasks());
                     return message.toString();
                 case EVENT:
                     taskNumber = taskList.addEvent(input);
-                    message = new StringBuilder();
-                    message.append(naruto.taskAddedMessage("[" + taskList.getTaskIcon(taskNumber) + "]["
-                            + taskList.getStatusIcon(taskNumber) + "] "
-                            + taskList.getDescription(taskNumber), taskNumber));
+                    message = new StringBuilder(naruto.taskAddedMessage(taskList.getTask(taskNumber).toString(), taskNumber));
 
                     storage.save(taskList.getUpdatedTasks());
                     return message.toString();

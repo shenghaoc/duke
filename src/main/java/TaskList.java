@@ -112,4 +112,8 @@ public class TaskList {
         return tasks.size();
     }
 
+    protected Task getTask(int index) {
+        return tasks.get(index);
+    }
+
 }
