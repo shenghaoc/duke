@@ -26,11 +26,11 @@ public class Ui {
     /**
      * Adds task to list and prints message to indicate success
      * @param message Information about added task
-     * @param taskCount Number of tasks in list - 1
+     * @param taskNumber Number of tasks in list - 1
      */
-    protected String taskAddedMessage(String message, int taskCount) {
+    protected String taskAddedMessage(String message, int taskNumber) {
         return say("Got it. I've added this task") + format(message)
-                + say("Now you have " + (taskCount + 1) + " tasks in the list");
+                + say("Now you have " + (taskNumber + 1) + " tasks in the list");
     }
 
     /**
