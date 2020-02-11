@@ -6,7 +6,6 @@ import java.util.ArrayList;
 public class TaskList {
 
     ArrayList<Task> tasks = new ArrayList<>();
-    int taskCount = 0;
 
     /**
      * Returns current list of tasks
@@ -58,8 +57,7 @@ public class TaskList {
             throw new DukeException();
         }
         tasks.add(new ToDo(input.substring("todo".length() + 1)));
-        taskCount++;
-        return taskCount - 1;
+        return tasks.size() - 1;
     }
 
     /**
@@ -72,8 +70,7 @@ public class TaskList {
         int trigger = input.indexOf('/');
         tasks.add(new Deadline(input.substring("deadline".length() + 1, trigger - 1),
                 input.substring(trigger + "/by ".length())));
-        taskCount++;
-        return taskCount - 1;
+        return tasks.size() - 1;
     }
 
     /**
@@ -86,8 +83,7 @@ public class TaskList {
         int trigger = input.indexOf('/');
         tasks.add(new Event(input.substring("event".length() + 1, trigger - 1),
                 input.substring(trigger + "/at ".length())));
-        taskCount++;
-        return taskCount - 1;
+        return tasks.size() - 1;
      }
 
     /**
@@ -105,7 +101,6 @@ public class TaskList {
      * @param taskNumber index of task to be deleted
      */
     protected void delete(int taskNumber) {
-        taskCount--;
         tasks.remove(taskNumber);
     }
 
@@ -114,7 +109,7 @@ public class TaskList {
      * @return number of tasks
      */
     protected int getTaskCount() {
-        return taskCount;
+        return tasks.size();
     }
 
 }
