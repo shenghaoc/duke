@@ -52,12 +52,11 @@ public class Duke {
                     return message.toString();
                 case DELETE:
                     taskNumber = Integer.parseInt(input.substring("delete".length() + 1)) - 1;
-                    message = new StringBuilder();
-                    message.append(naruto.say("Noted. I've removed this task"));
+                    message = new StringBuilder(naruto.say("Noted. I've removed this task"));
                     message.append(naruto.format("[" + taskList.getTaskIcon(taskNumber) + "]["
                             + taskList.getStatusIcon(taskNumber) + "] " + taskList.getDescription(taskNumber)));
-                    message.append(naruto.say("Now you have " + (taskList.getTaskCount() - 1) + " tasks in the list"));
                     taskList.delete(taskNumber);
+                    message.append(naruto.say("Now you have " + taskList.getTaskCount() + " tasks in the list"));
                     storage.save(taskList.getUpdatedTasks());
                     return message.toString();
                 case FIND:
