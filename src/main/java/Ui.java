@@ -9,11 +9,6 @@ public class Ui {
     private static final String LINE = "______________________________";
     private static final String INDENT = "    ";
 
-    Ui() {
-        say("Hi! I'm " + name);
-        say("How may I help you?");
-    }
-
     Ui(String name) {
         this.name = name;
         say("Hi! I'm " + name);
@@ -79,10 +74,7 @@ public class Ui {
         message.append(bar());
         for (int i = 0; i < tasks.size(); i++) {
             if (tasks.get(i).getDescription().contains(keyword)) {
-                message.append(indent((i + 1) + ". [" + tasks.get(i).getTaskIcon() + "]["
-                        + tasks.get(i).getStatusIcon() + "] " + tasks.get(i).getDescription()
-                        + (tasks.get(i).hasTime() ? ((tasks.get(i) instanceof Deadline ? " (by: " : " (at: ")
-                        + tasks.get(i).getTime() + ")") : "")) + System.lineSeparator());
+                message.append(indent((i + 1) + ". " + tasks.get(i).toString())).append(System.lineSeparator());
             }
         }
         return message.append(bar()).toString();
