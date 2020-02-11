@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Ui {
 
     private String name = "Duke";
-    private static final String LINE = "____________________________________________________________";
+    private static final String LINE = "______________________________";
     private static final String INDENT = "    ";
 
     Ui() {
