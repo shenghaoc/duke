@@ -3,7 +3,7 @@ import java.time.LocalDate;
 /**
  * Class to represent a Task
  */
-public class Task {
+public abstract class Task {
     protected String description;
     protected boolean isDone;
     protected String time = "-1";
