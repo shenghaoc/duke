@@ -1,43 +1,19 @@
-import java.util.Scanner;
-
-import javafx.application.Application;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
 /**
  * The main entry point for the chat bot containing the main method
  */
 public class Duke {
 
     private static final String FILE_PATH = "data/duke.txt";
-    private ScrollPane scrollPane;
-    private VBox dialogContainer;
-    private TextField userInput;
-    private Button sendButton;
-    private Scene scene;
-    private Image user = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
-    private Image duke = new Image(this.getClass().getResourceAsStream("/images/DaDuke.png"));
+    Ui naruto = new Ui("Naruto");
+    Storage storage = new Storage(FILE_PATH);
+    TaskList taskList = new TaskList();
+    Parser parser = new Parser();
 
     /**
      * You should have your own function to generate a response to user input.
      * Replace this stub with your completed method.
      */
     String getResponse(String input) {
-        Ui naruto = new Ui("Naruto");
-        Storage storage = new Storage(FILE_PATH);
-        TaskList taskList = new TaskList();
-        Parser parser = new Parser();
-
         try {
             int taskNumber;
             StringBuilder message;
@@ -61,9 +37,7 @@ public class Duke {
                 case TODO:
                     try {
                         taskNumber = taskList.addToDo(input);
-                        message = new StringBuilder(naruto.taskAddedMessage("[" + taskList.getTaskIcon(taskNumber) + "]["
-                                + taskList.getStatusIcon(taskNumber) + "] "
-                                + taskList.getDescription(taskNumber), taskNumber));
+                        message = new StringBuilder(naruto.taskAddedMessage(taskList.getTask(taskNumber).toString(), taskNumber));
                         storage.save(taskList.getUpdatedTasks());
                         return message.toString();
                     } catch (DukeException dE) {
@@ -71,30 +45,22 @@ public class Duke {
                     }
                 case DEADLINE:
                     taskNumber = taskList.addDeadline(input);
-                    message = new StringBuilder();
-                    message.append(naruto.taskAddedMessage("[" + taskList.getTaskIcon(taskNumber) + "]["
-                            + taskList.getStatusIcon(taskNumber) + "] "
-                            + taskList.getDescription(taskNumber), taskNumber));
+                    message = new StringBuilder(naruto.taskAddedMessage(taskList.getTask(taskNumber).toString(), taskNumber));
                     storage.save(taskList.getUpdatedTasks());
                     return message.toString();
                 case EVENT:
                     taskNumber = taskList.addEvent(input);
-                    message = new StringBuilder();
-                    message.append(naruto.taskAddedMessage("[" + taskList.getTaskIcon(taskNumber) + "]["
-                            + taskList.getStatusIcon(taskNumber) + "] "
-                            + taskList.getDescription(taskNumber), taskNumber));
-
+                    message = new StringBuilder(naruto.taskAddedMessage(taskList.getTask(taskNumber).toString(), taskNumber));
                     storage.save(taskList.getUpdatedTasks());
                     return message.toString();
                 case DELETE:
                     int originalTaskCount = taskList.getTaskCount();
                     taskNumber = Integer.parseInt(input.substring("delete".length() + 1)) - 1;
-                    message = new StringBuilder();
-                    message.append(naruto.say("Noted. I've removed this task"));
+                    message = new StringBuilder(naruto.say("Noted. I've removed this task"));
                     message.append(naruto.format("[" + taskList.getTaskIcon(taskNumber) + "]["
                             + taskList.getStatusIcon(taskNumber) + "] " + taskList.getDescription(taskNumber)));
-                    message.append(naruto.say("Now you have " + (taskList.getTaskCount() - 1) + " tasks in the list"));
                     taskList.delete(taskNumber);
+                    message.append(naruto.say("Now you have " + taskList.getTaskCount() + " tasks in the list"));
                     // Ensure number of tasks falls by 1
                     assert taskList.getTaskCount() == originalTaskCount - 1 : "Number of events unchanged!";
                     storage.save(taskList.getUpdatedTasks());

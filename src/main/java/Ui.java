@@ -5,14 +5,9 @@ import java.util.ArrayList;
  */
 public class Ui {
 
-    private String name = "Duke";
-    private static final String LINE = "____________________________________________________________";
+    private String name;
+    private static final String LINE = "______________________________";
     private static final String INDENT = "    ";
-
-    Ui() {
-        say("Hi! I'm " + name);
-        say("How may I help you?");
-    }
 
     Ui(String name) {
         this.name = name;
@@ -31,11 +26,11 @@ public class Ui {
     /**
      * Adds task to list and prints message to indicate success
      * @param message Information about added task
-     * @param taskCount Number of tasks in list - 1
+     * @param taskNumber Number of tasks in list - 1
      */
-    protected String taskAddedMessage(String message, int taskCount) {
+    protected String taskAddedMessage(String message, int taskNumber) {
         return say("Got it. I've added this task") + format(message)
-                + say("Now you have " + (taskCount + 1) + " tasks in the list");
+                + say("Now you have " + (taskNumber + 1) + " tasks in the list");
     }
 
     /**
@@ -43,7 +38,7 @@ public class Ui {
      * @param message Message to be printed
      */
     protected String format(String message) {
-        return bar() + indent(message) + bar() + System.lineSeparator();
+        return bar() + indent(message) +System.lineSeparator()+ bar() + System.lineSeparator();
     }
 
     /**
@@ -69,10 +64,7 @@ public class Ui {
         StringBuilder message = new StringBuilder(say("Here you go"));
         message.append(bar());
         for (int i = 0; i < tasks.size(); i++) {
-            message.append(indent((i + 1) + ". [" + tasks.get(i).getTaskIcon() + "]["
-                    + tasks.get(i).getStatusIcon() + "] " + tasks.get(i).getDescription()
-                    + (tasks.get(i).hasTime() ? ((tasks.get(i) instanceof Deadline ? " (by: " : " (at: ")
-                    + tasks.get(i).getTime() + ")") : "")) + System.lineSeparator());
+            message.append(indent((i + 1) + ". " + tasks.get(i).toString())).append(System.lineSeparator());
         }
         return message.append(bar()).toString();
     }
@@ -82,10 +74,7 @@ public class Ui {
         message.append(bar());
         for (int i = 0; i < tasks.size(); i++) {
             if (tasks.get(i).getDescription().contains(keyword)) {
-                message.append(indent((i + 1) + ". [" + tasks.get(i).getTaskIcon() + "]["
-                        + tasks.get(i).getStatusIcon() + "] " + tasks.get(i).getDescription()
-                        + (tasks.get(i).hasTime() ? ((tasks.get(i) instanceof Deadline ? " (by: " : " (at: ")
-                        + tasks.get(i).getTime() + ")") : "")) + System.lineSeparator());
+                message.append(indent((i + 1) + ". " + tasks.get(i).toString())).append(System.lineSeparator());
             }
         }
         return message.append(bar()).toString();

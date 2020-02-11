@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -29,5 +28,10 @@ public class Deadline extends Task {
         return dateProcessed
                 ? processedTime.format(DateTimeFormatter.ofPattern("MMM d yyyy"))
                 : time;
+    }
+
+    @Override
+    public String toString() {
+        return "[D][" + getStatusIcon() + "] " + description + (hasTime() ? " (by: " + time + ")" : "");
     }
 }
