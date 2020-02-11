@@ -27,17 +27,16 @@ public class Duke {
     private Scene scene;
     private Image user = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
     private Image duke = new Image(this.getClass().getResourceAsStream("/images/DaDuke.png"));
+    Ui naruto = new Ui("Naruto");
+    Storage storage = new Storage(FILE_PATH);
+    TaskList taskList = new TaskList();
+    Parser parser = new Parser();
 
     /**
      * You should have your own function to generate a response to user input.
      * Replace this stub with your completed method.
      */
     String getResponse(String input) {
-        Ui naruto = new Ui("Naruto");
-        Storage storage = new Storage(FILE_PATH);
-        TaskList taskList = new TaskList();
-        Parser parser = new Parser();
-
         try {
             int taskNumber;
             StringBuilder message;
