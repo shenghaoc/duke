@@ -76,10 +76,31 @@ public class Ui {
     protected String matchingItems(ArrayList<Task> tasks, String keyword) {
         StringBuilder message = new StringBuilder(say("Here are the matching tasks in your list"));
         message.append(bar());
+        int defaultLength = message.length();
         for (int i = 0; i < tasks.size(); i++) {
             if (tasks.get(i).getDescription().contains(keyword)) {
                 message.append(indent((i + 1) + ". " + tasks.get(i).toString())).append(System.lineSeparator());
             }
+        }
+        if (message.length() == defaultLength) {
+            return partialMatchingItems(tasks, keyword);
+        }
+        return message.append(bar()).toString();
+    }
+
+    protected String partialMatchingItems(ArrayList<Task> tasks, String keyword) {
+        StringBuilder message = new StringBuilder(
+                say("No matching task found, here are the partially-matching tasks in your list"));
+        message.append(bar());
+        String[] subkeywords = keyword.split(" ");
+        for (String s : subkeywords) {
+            message.append(indent("Match \"" + s + "\"")).append(System.lineSeparator());
+            for (int i = 0; i < tasks.size(); i++) {
+                if (tasks.get(i).getDescription().contains(s)) {
+                    message.append(indent((i + 1) + ". " + tasks.get(i).toString())).append(System.lineSeparator());
+                }
+            }
+            message.append(System.lineSeparator());
         }
         return message.append(bar()).toString();
     }
