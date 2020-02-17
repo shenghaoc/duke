@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Class to store list of tasks
+ * Class to store list of tasks.
  */
 public class Storage {
     private String filePath;
@@ -17,7 +17,7 @@ public class Storage {
     }
 
     /**
-     * Save list of tasks to hard disk
+     * Save list of tasks to hard disk.
      * @param tasks list of tasks
      */
     protected void save(ArrayList<Task> tasks) {

@@ -7,6 +7,11 @@ import java.time.format.DateTimeFormatter;
 public class Deadline extends Task {
     private boolean dateProcessed = true;
 
+    /**
+     * Constructor for Deadline class.
+     * @param description details regarding task
+     * @param time by which task has to be completed
+     */
     public Deadline(String description, String time) {
         super(description);
         this.time = time;

@@ -4,16 +4,16 @@ import duke.command.Command;
 import duke.exception.DukeException;
 
 /**
- * Class to process user input
+ * Class to process user input.
  */
 
 public class Parser {
     /**
-     * Processes user input to determine type of command, represented by an anum
+     * Processes user input to determine type of command, represented by an enum.
      *
      * @param input text entered by user
      * @return An enum for the command type
-     * @throws DukeException
+     * @throws DukeException exception specific to Duke
      */
     protected Command parse(String input) throws DukeException {
         if (input.equals("bye")) {

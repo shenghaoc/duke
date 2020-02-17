@@ -48,7 +48,7 @@ public abstract class Task {
     }
 
     /**
-     * Returns time of occurrence for event depending on type
+     * Returns time of occurrence for event depending on type.
      * @return time by or at which event is to be completed
      */
     public String getTime() {
@@ -56,7 +56,7 @@ public abstract class Task {
     }
 
     /**
-     * Returns true if event is associated with time, false otherwise
+     * Returns true if event is associated with time, false otherwise.
      * @return whether event associated with time
      */
     public boolean hasTime() {

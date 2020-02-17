@@ -5,7 +5,7 @@ import duke.task.Task;
 import java.util.ArrayList;
 
 /**
- * Class to represent the user interface
+ * Class to represent the user interface.
  */
 public class Ui {
 
@@ -20,7 +20,7 @@ public class Ui {
     }
 
     /**
-     * Prints text from chat bot
+     * Prints text from chat bot.
      * @param message Text to be said
      */
     protected String say(String message) {
@@ -28,7 +28,7 @@ public class Ui {
     }
 
     /**
-     * Adds duke.task to list and prints message to indicate success
+     * Adds duke.task to list and prints message to indicate success.
      * @param message Information about added duke.task
      * @param taskNumber Number of tasks in list - 1
      */
@@ -38,22 +38,22 @@ public class Ui {
     }
 
     /**
-     * Prints message between two horizontal bars
+     * Prints message between two horizontal bars.
      * @param message Message to be printed
      */
     protected String format(String message) {
-        return bar() + indent(message) +System.lineSeparator()+ bar() + System.lineSeparator();
+        return bar() + indent(message) + System.lineSeparator() + bar() + System.lineSeparator();
     }
 
     /**
-     * Prints a horizontal bar
+     * Prints a horizontal bar.
      */
     protected String bar() {
         return indent(LINE) + System.lineSeparator();
     }
 
     /**
-     * Prints the message with indentation of four spaces
+     * Prints the message with indentation of four spaces.
      * @param message Message to be printed
      */
     protected String indent(String message) {
@@ -61,7 +61,7 @@ public class Ui {
     }
 
     /**
-     * Prints list of tasks
+     * Prints list of tasks.
      * @param tasks List of tasks
      */
     protected String list(ArrayList<Task> tasks) {

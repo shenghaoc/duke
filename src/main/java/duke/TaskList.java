@@ -9,14 +9,14 @@ import duke.task.ToDo;
 import java.util.ArrayList;
 
 /**
- * Class to represent a list of tasks
+ * Class to represent a list of tasks.
  */
 public class TaskList {
 
     ArrayList<Task> tasks = new ArrayList<>();
 
     /**
-     * Returns current list of tasks
+     * Returns current list of tasks.
      * @return current list of tasks
      */
     protected ArrayList<Task> getUpdatedTasks() {
@@ -24,7 +24,7 @@ public class TaskList {
     }
 
     /**
-     * Calls function to get description for specific duke.task in list
+     * Calls function to get description for specific duke.task in list.
      * @param index of specific duke.task
      * @return description of specific duke.task
      */
@@ -33,7 +33,7 @@ public class TaskList {
     }
 
     /**
-     * Calls function to get status icon for specific duke.task in list
+     * Calls function to get status icon for specific duke.task in list.
      *
      * @param index of specific duke.task
      * @return status icon of specific duke.task
@@ -43,7 +43,7 @@ public class TaskList {
     }
 
     /**
-     * Calls function to get duke.task icon for specific duke.task in list
+     * Calls function to get duke.task icon for specific duke.task in list.
      *
      * @param index of specific duke.task
      * @return duke.task icon of specific duke.task
@@ -54,11 +54,11 @@ public class TaskList {
 
 
     /**
-     * Add new to do to list and return its index
+     * Add new to do to list and return its index.
      *
      * @param input text entered by user
      * @return index of new deadline
-     * @throws DukeException
+     * @throws DukeException exception specific to Duke
      */
     protected int addToDo(String input) throws DukeException {
         if (input.length() <= ("todo".length() + 1)) {
@@ -69,7 +69,7 @@ public class TaskList {
     }
 
     /**
-     * Add new deadline to list and return its index
+     * Add new deadline to list and return its index.
      *
      * @param input text entered by user
      * @return index of new deadline
@@ -82,7 +82,7 @@ public class TaskList {
     }
 
     /**
-     * Add new event to list and return its index
+     * Add new event to list and return its index.
      *
      * @param input text entered by user
      * @return index of new event
@@ -92,10 +92,10 @@ public class TaskList {
         tasks.add(new Event(input.substring("event".length() + 1, trigger - 1),
                 input.substring(trigger + "/at ".length())));
         return tasks.size() - 1;
-     }
+    }
 
     /**
-     * Calls function for specific duke.task to mark itself as done
+     * Calls function for specific duke.task to mark itself as done.
      *
      * @param taskNumber Index for duke.task to be marked as done
      */
@@ -104,7 +104,7 @@ public class TaskList {
     }
 
     /**
-     * Deletes specific duke.task at index from list
+     * Deletes specific duke.task at index from list.
      *
      * @param taskNumber index of duke.task to be deleted
      */
@@ -113,7 +113,7 @@ public class TaskList {
     }
 
     /**
-     * Returns current number of tasks
+     * Returns current number of tasks.
      * @return number of tasks
      */
     protected int getTaskCount() {
