@@ -24,6 +24,7 @@ public class Duke {
             switch (parser.parse(input)) {
             case BYE:
                 System.exit(0);
+                return naruto.say("See you later!");
             case LIST:
                 return naruto.list(taskList.getUpdatedTasks());
             case DONE:
