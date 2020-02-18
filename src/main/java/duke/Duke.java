@@ -23,7 +23,7 @@ public class Duke {
             StringBuilder message;
             switch (parser.parse(input)) {
             case BYE:
-                return naruto.say("See you later!");
+                System.exit(0);
             case LIST:
                 return naruto.list(taskList.getUpdatedTasks());
             case DONE:
