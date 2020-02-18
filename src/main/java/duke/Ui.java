@@ -76,7 +76,8 @@ public class Ui {
         message.append(bar());
         IntStream
                 .range(0, tasks.size())
-                .forEachOrdered(i -> message.append(indent((i + 1) + ". " + tasks.get(i).toString())).append(System.lineSeparator()));
+                .forEachOrdered(i -> message.append(indent((i + 1) + ". " + tasks.get(i).toString()))
+                        .append(System.lineSeparator()));
         return message.append(bar()).toString();
     }
 

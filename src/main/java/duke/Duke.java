@@ -30,8 +30,8 @@ public class Duke {
                 taskNumber = Integer.parseInt(input.substring("done".length() + 1)) - 1;
                 taskList.addDone(taskNumber);
 
-                assert taskList.getStatusIcon(taskNumber).equals("\u2713")
-                        : "Task status not done!"; // Ensure that status icon is now a tick
+                assert taskList.getStatusIcon(taskNumber).equals("\u2713") // Ensure that status icon is now a tick
+                        : "Task status not done!";
 
                 message = new StringBuilder(naruto.say("All right, consider it done"));
                 message.append(naruto.format("[" + taskList.getStatusIcon(taskNumber) + "] "

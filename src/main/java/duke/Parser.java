@@ -8,6 +8,7 @@ import duke.exception.DukeException;
  */
 
 public class Parser {
+
     /**
      * Processes user input to determine type of command, represented by an enum.
      *
