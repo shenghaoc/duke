@@ -13,6 +13,7 @@ import javafx.stage.Stage;
  * A GUI for duke.Duke using FXML.
  */
 public class Main extends Application {
+    private static final String TITLE = "Duke";
 
     private Duke duke = new Duke();
 
@@ -24,6 +25,7 @@ public class Main extends Application {
             Scene scene = new Scene(ap);
             stage.setScene(scene);
             stage.setResizable(false);
+            stage.setTitle(TITLE);
             fxmlLoader.<MainWindow>getController().setDuke(duke);
             stage.show();
         } catch (IOException e) {

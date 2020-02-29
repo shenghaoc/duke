@@ -27,7 +27,7 @@ public class Ui {
      * @param message Text to be said
      */
     protected String say(String message) {
-        return indent(name + ": " + message) + System.lineSeparator();
+        return name + ": " + message + System.lineSeparator();
     }
 
     /**
