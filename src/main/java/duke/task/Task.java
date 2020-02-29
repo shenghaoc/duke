@@ -3,7 +3,7 @@ package duke.task;
 import java.time.LocalDate;
 
 /**
- * Class to represent a duke.task.Task
+ * Class to represent a Task
  */
 public abstract class Task {
     protected String description;
@@ -16,8 +16,8 @@ public abstract class Task {
     }
 
     /**
-     * Returns type of duke.task
-     * @return type of duke.task
+     * Returns type of task
+     * @return type of task
      */
     public String getDescription() {
         return description;
@@ -32,15 +32,15 @@ public abstract class Task {
     }
 
     /**
-     * Mark a duke.task as done
+     * Mark a task as done
      */
     public void markAsDone() {
         isDone = true;
     }
 
     /**
-     * Returns the initial letter of the type of duke.task, eg D for duke.task.Deadline
-     * @return the duke.task icon
+     * Returns the initial letter of the type of task, eg D for Deadline
+     * @return the task icon
      */
     public String getTaskIcon() {
         return "0";

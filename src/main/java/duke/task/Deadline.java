@@ -31,7 +31,7 @@ public class Deadline extends Task {
         return true;
     }
 
-    public String getTime() {
+    private String getTime() {
         return dateProcessed
                 ? processedTime.format(DateTimeFormatter.ofPattern("MMM d yyyy"))
                 : time;
@@ -39,6 +39,6 @@ public class Deadline extends Task {
 
     @Override
     public String toString() {
-        return "[D][" + getStatusIcon() + "] " + description + (hasTime() ? " (by: " + getTime() + ")" : "");
+        return "[D][" + getStatusIcon() + "] " + description + " (by: " + getTime() + ")";
     }
 }

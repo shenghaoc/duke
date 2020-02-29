@@ -10,7 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
 /**
- * Controller for duke.gui.MainWindow. Provides the layout for the other controls.
+ * Controller for MainWindow. Provides the layout for the other controls.
  */
 public class MainWindow extends AnchorPane {
     @FXML
@@ -35,6 +35,11 @@ public class MainWindow extends AnchorPane {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
     }
 
+    /**
+     * Sets a specific instance of Duke and output welcome message.
+     *
+     * @param d an instance of Duke to interact with user
+     */
     public void setDuke(Duke d) {
         duke = d;
         dialogContainer.getChildren()
@@ -42,7 +47,7 @@ public class MainWindow extends AnchorPane {
     }
 
     /**
-     * Creates two dialog boxes, one echoing user input and the other containing duke.Duke's reply and then appends them
+     * Creates two dialog boxes, one echoing user input and the other containing Duke's reply and then appends them
      * to the dialog container. Clears the user input after processing.
      */
     @FXML

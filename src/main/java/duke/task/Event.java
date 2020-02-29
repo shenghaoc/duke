@@ -8,6 +8,11 @@ public class Event extends Task {
     private boolean dateProcessed = true;
     private String time;
 
+    /**
+     * Constructor for Event class.
+     * @param description details regarding task
+     * @param time at which task has to be completed
+     */
     public Event(String description, String time) {
         super(description);
         this.time = time;
@@ -26,7 +31,7 @@ public class Event extends Task {
         return true;
     }
 
-    public String getTime() {
+    private String getTime() {
         return dateProcessed
                 ? processedTime.format(DateTimeFormatter.ofPattern("MMM d yyyy"))
                 : time;
@@ -35,6 +40,6 @@ public class Event extends Task {
 
     @Override
     public String toString() {
-        return "[E][" + getStatusIcon() + "] " + description + (hasTime() ? " (at: " + getTime() + ")" : "");
+        return "[E][" + getStatusIcon() + "] " + description + " (at: " + getTime() + ")";
     }
 }

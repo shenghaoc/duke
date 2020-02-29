@@ -73,7 +73,7 @@ public class Duke {
             case DELETE:
                 taskNumber = Integer.parseInt(input.substring("delete".length() + 1)) - 1;
                 int originalTaskCount = taskList.getTaskCount();
-                message = new StringBuilder(naruto.say("Noted. I've removed this duke.task")).append(naruto.format("["
+                message = new StringBuilder(naruto.say("Noted. I've removed this task")).append(naruto.format("["
                         + taskList.getTaskIcon(taskNumber) + "][" + taskList.getStatusIcon(taskNumber) + "] "
                         + taskList.getDescription(taskNumber)));
                 taskList.delete(taskNumber);
@@ -89,6 +89,6 @@ public class Duke {
         } catch (DukeException de) {
             return naruto.say(ERROR_MESSAGE);
         }
-        return "duke.Duke heard: " + input;
+        return "Duke heard: " + input;
     }
 }
