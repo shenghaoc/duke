@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Deadline extends Task {
     private boolean dateProcessed = true;
+    private String time;
 
     /**
      * Constructor for Deadline class.
@@ -30,7 +31,6 @@ public class Deadline extends Task {
         return true;
     }
 
-    @Override
     public String getTime() {
         return dateProcessed
                 ? processedTime.format(DateTimeFormatter.ofPattern("MMM d yyyy"))
@@ -39,6 +39,6 @@ public class Deadline extends Task {
 
     @Override
     public String toString() {
-        return "[D][" + getStatusIcon() + "] " + description + (hasTime() ? " (by: " + time + ")" : "");
+        return "[D][" + getStatusIcon() + "] " + description + (hasTime() ? " (by: " + getTime() + ")" : "");
     }
 }

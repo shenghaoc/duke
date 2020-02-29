@@ -8,7 +8,6 @@ import java.time.LocalDate;
 public abstract class Task {
     protected String description;
     protected boolean isDone;
-    protected String time = "-1";
     protected LocalDate processedTime = LocalDate.MIN;
 
     public Task(String description) {
@@ -45,14 +44,6 @@ public abstract class Task {
      */
     public String getTaskIcon() {
         return "0";
-    }
-
-    /**
-     * Returns time of occurrence for event depending on type.
-     * @return time by or at which event is to be completed
-     */
-    public String getTime() {
-        return time;
     }
 
     /**
