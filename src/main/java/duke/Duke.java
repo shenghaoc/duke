@@ -58,7 +58,7 @@ public class Duke {
                     storage.save(taskList.getUpdatedTasks());
                     return message.toString();
                 } catch (DukeException de) {
-                    return naruto.say("☹ OOPS!!! Deadline description cannot be empty!");
+                    return naruto.say("☹ OOPS!!! Deadline description and date cannot be empty!");
                 }
             case EVENT:
                 try {
@@ -68,7 +68,7 @@ public class Duke {
                     storage.save(taskList.getUpdatedTasks());
                     return message.toString();
                 } catch (DukeException de) {
-                    return naruto.say("☹ OOPS!!! Event description cannot be empty!");
+                    return naruto.say("☹ OOPS!!! Event description and date cannot be empty!");
                 }
             case DELETE:
                 taskNumber = Integer.parseInt(input.substring("delete".length() + 1)) - 1;
