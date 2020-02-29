@@ -7,7 +7,7 @@ import duke.exception.DukeException;
  */
 public class Duke {
 
-    private static final String FILE_PATH = "data/duke.txt";
+    private static final String FILE_PATH = System.getProperty("user.dir") + "/duke.txt";
     private static final String ERROR_MESSAGE = "☹ OOPS!!! I'm sorry, but I don't know what that means :-(";
     Ui naruto = new Ui("Naruto");
     Storage storage = new Storage(FILE_PATH);
