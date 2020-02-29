@@ -8,6 +8,7 @@ import duke.exception.DukeException;
 public class Duke {
 
     private static final String FILE_PATH = "data/duke.txt";
+    private static final String ERROR_MESSAGE = "☹ OOPS!!! The description of a todo cannot be empty.";
     Ui naruto = new Ui("Naruto");
     Storage storage = new Storage(FILE_PATH);
     TaskList taskList = new TaskList();
@@ -47,20 +48,28 @@ public class Duke {
                     storage.save(taskList.getUpdatedTasks());
                     return message.toString();
                 } catch (DukeException de) {
-                    return naruto.say("☹ OOPS!!! The description of a todo cannot be empty.");
+                    return naruto.say("☹ OOPS!!! Todo description cannot be empty!");
                 }
             case DEADLINE:
-                taskNumber = taskList.addDeadline(input);
-                message = new StringBuilder(naruto.taskAddedMessage(taskList.getTask(taskNumber).toString(),
-                        taskNumber));
-                storage.save(taskList.getUpdatedTasks());
-                return message.toString();
+                try {
+                    taskNumber = taskList.addDeadline(input);
+                    message = new StringBuilder(naruto.taskAddedMessage(taskList.getTask(taskNumber).toString(),
+                            taskNumber));
+                    storage.save(taskList.getUpdatedTasks());
+                    return message.toString();
+                } catch (DukeException de) {
+                    return naruto.say("☹ OOPS!!! Deadline description cannot be empty!");
+                }
             case EVENT:
-                taskNumber = taskList.addEvent(input);
-                message = new StringBuilder(naruto.taskAddedMessage(taskList.getTask(taskNumber).toString(),
-                        taskNumber));
-                storage.save(taskList.getUpdatedTasks());
-                return message.toString();
+                try {
+                    taskNumber = taskList.addEvent(input);
+                    message = new StringBuilder(naruto.taskAddedMessage(taskList.getTask(taskNumber).toString(),
+                            taskNumber));
+                    storage.save(taskList.getUpdatedTasks());
+                    return message.toString();
+                } catch (DukeException de) {
+                    return naruto.say("☹ OOPS!!! Event description cannot be empty!");
+                }
             case DELETE:
                 taskNumber = Integer.parseInt(input.substring("delete".length() + 1)) - 1;
                 int originalTaskCount = taskList.getTaskCount();
@@ -78,7 +87,7 @@ public class Duke {
             default:
             }
         } catch (DukeException de) {
-            return naruto.say("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
+            return naruto.say(ERROR_MESSAGE);
         }
         return "duke.Duke heard: " + input;
     }

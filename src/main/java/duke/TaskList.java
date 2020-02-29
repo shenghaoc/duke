@@ -17,6 +17,7 @@ public class TaskList {
 
     /**
      * Returns current list of tasks.
+     *
      * @return current list of tasks
      */
     protected ArrayList<Task> getUpdatedTasks() {
@@ -25,6 +26,7 @@ public class TaskList {
 
     /**
      * Calls function to get description for specific duke.task in list.
+     *
      * @param index of specific duke.task
      * @return description of specific duke.task
      */
@@ -61,10 +63,11 @@ public class TaskList {
      * @throws DukeException exception specific to Duke
      */
     protected int addToDo(String input) throws DukeException {
-        if (input.length() <= ("todo".length() + 1)) {
+        try {
+            tasks.add(new ToDo(input.substring("todo".length() + 1)));
+        } catch (IndexOutOfBoundsException e) {
             throw new DukeException();
         }
-        tasks.add(new ToDo(input.substring("todo".length() + 1)));
         return tasks.size() - 1;
     }
 
@@ -74,10 +77,14 @@ public class TaskList {
      * @param input text entered by user
      * @return index of new deadline
      */
-    protected int addDeadline(String input) {
+    protected int addDeadline(String input) throws DukeException {
         int trigger = input.indexOf('/');
-        tasks.add(new Deadline(input.substring("deadline".length() + 1, trigger - 1),
-                input.substring(trigger + "/by ".length())));
+        try {
+            tasks.add(new Deadline(input.substring("deadline".length() + 1, trigger - 1),
+                    input.substring(trigger + "/by ".length())));
+        } catch (IndexOutOfBoundsException e) {
+            throw new DukeException();
+        }
         return tasks.size() - 1;
     }
 
@@ -87,10 +94,14 @@ public class TaskList {
      * @param input text entered by user
      * @return index of new event
      */
-    protected int addEvent(String input) {
+    protected int addEvent(String input) throws DukeException {
         int trigger = input.indexOf('/');
-        tasks.add(new Event(input.substring("event".length() + 1, trigger - 1),
-                input.substring(trigger + "/at ".length())));
+        try {
+            tasks.add(new Event(input.substring("event".length() + 1, trigger - 1),
+                    input.substring(trigger + "/at ".length())));
+        } catch (IndexOutOfBoundsException e) {
+            throw new DukeException();
+        }
         return tasks.size() - 1;
     }
 
@@ -114,6 +125,7 @@ public class TaskList {
 
     /**
      * Returns current number of tasks.
+     *
      * @return number of tasks
      */
     protected int getTaskCount() {
