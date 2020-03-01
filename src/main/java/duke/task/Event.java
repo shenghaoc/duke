@@ -5,13 +5,15 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Event extends Task {
+    private LocalDate processedTime = LocalDate.MIN;
     private boolean dateProcessed = true;
     private String time;
 
     /**
      * Constructor for Event class.
+     *
      * @param description details regarding task
-     * @param time at which task has to be completed
+     * @param time        at which task has to be completed
      */
     public Event(String description, String time) {
         super(description);

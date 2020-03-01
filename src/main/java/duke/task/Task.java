@@ -1,14 +1,11 @@
 package duke.task;
 
-import java.time.LocalDate;
-
 /**
  * Class to represent a Task.
  */
 public abstract class Task {
     protected String description;
     protected boolean isDone;
-    protected LocalDate processedTime = LocalDate.MIN;
 
     public Task(String description) {
         this.description = description;
@@ -17,6 +14,7 @@ public abstract class Task {
 
     /**
      * Returns type of task.
+     *
      * @return type of task
      */
     public String getDescription() {
@@ -25,6 +23,7 @@ public abstract class Task {
 
     /**
      * Returns the status icon, i.e. a tick or a cross
+     *
      * @return the status icon
      */
     public String getStatusIcon() {
@@ -40,6 +39,7 @@ public abstract class Task {
 
     /**
      * Returns the initial letter of the type of task, eg D for Deadline.
+     *
      * @return the task icon
      */
     public String getTaskIcon() {
@@ -48,6 +48,7 @@ public abstract class Task {
 
     /**
      * Returns true if event is associated with time, false otherwise.
+     *
      * @return whether event associated with time
      */
     public boolean hasTime() {
