@@ -5,6 +5,7 @@ import duke.task.Task;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 /**
@@ -34,7 +35,7 @@ public class Storage {
         }
 
         try {
-            FileWriter fw = new FileWriter(filePath);
+            FileWriter fw = new FileWriter(filePath, StandardCharsets.UTF_8);
             for (int i = 0; i < tasks.size(); i++) {
                 fw.write((i + 1) + ". " + tasks.get(i).toString() + System.lineSeparator());
             }
